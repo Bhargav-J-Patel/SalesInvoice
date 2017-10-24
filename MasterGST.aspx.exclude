@@ -1,0 +1,102 @@
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BillMaster.master" AutoEventWireup="true" CodeFile="MasterGST.aspx.cs" Inherits="MasterGST" %>
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
+</asp:Content>
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+<div class="panel">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Master GST
+                
+            </h2>
+            <div>
+                <div class="clearfix">
+                </div>
+            </div>
+            <asp:UpdatePanel runat="server" ID="Up1">
+                <ContentTemplate>
+                    <table class="table1">
+                        <tr>
+                            <td>
+                                <strong class="contentLabel">Item Group</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Item</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Description</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Size</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Sa Rate</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Qty</strong>
+                            </td>
+                            <td>
+                                <strong class="contentLabel">Total</strong>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td width="265px">
+                                <asp:TextBox runat="server" ID="TxtItemGroupName" CssClass="bsinputgreen" AutoPostBack="true"
+                                    TabIndex="1" 
+                                    style="background: #E6f2f2;border: 1px solid DarkGray;border-radius:3px;" 
+                                    width="250px" ontextchanged="TxtItemGroupName_TextChanged" ></asp:TextBox>
+                                <cc1:AutoCompleteExtender ServiceMethod="SearchItemGroup" MinimumPrefixLength="2"
+                                    OnClientItemSelected="select_ItemGroup" CompletionInterval="100" EnableCaching="false"
+                                    CompletionSetCount="10" TargetControlID="TxtItemGroupName" ID="AutoCompleteExtender1"
+                                    runat="server" FirstRowSelected="false" CompletionListCssClass="AutoComplete_completionListElement"
+                                    CompletionListItemCssClass="AutoComplete_listItem" CompletionListHighlightedItemCssClass="AutoComplete_highlightedListItem">
+                                </cc1:AutoCompleteExtender>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="TxtItemGroupName"
+                                    ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
+                                    ValidationGroup="Main"></asp:RequiredFieldValidator>
+                                <asp:HiddenField ID="HifItemGroup" runat="server" />
+                            </td>
+                            <td  width="265px">
+                                <asp:TextBox runat="server" ID="TxtItemName" CssClass="bsinputgreen" AutoPostBack="true" style="background: #E6f2f2;border: 1px solid DarkGray;border-radius:3px;" width="250px"
+                                    TabIndex="1" OnTextChanged="TxtItemName_TextChanged" ></asp:TextBox>
+                                <cc1:AutoCompleteExtender ServiceMethod="SearchItem" MinimumPrefixLength="2" OnClientItemSelected="select_Item"
+                                    CompletionInterval="100" EnableCaching="false" CompletionSetCount="10" TargetControlID="TxtItemName"
+                                    ID="AutoCompleteExtender2" runat="server" FirstRowSelected="false" CompletionListCssClass="AutoComplete_completionListElement"
+                                    CompletionListItemCssClass="AutoComplete_listItem" CompletionListHighlightedItemCssClass="AutoComplete_highlightedListItem">
+                                </cc1:AutoCompleteExtender>
+                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TxtItemName"
+                                    ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
+                                    ValidationGroup="Main"></asp:RequiredFieldValidator>
+                                <asp:HiddenField ID="HifItem" runat="server" />
+                            </td>
+                            <td width="275px">
+                                <asp:TextBox runat="server" ID="TxtDescription" CssClass="bsinputblue" TabIndex="1" Width="250px"
+                                    Enabled="false" />
+                            </td>
+                            <td Width="160px">
+                                <asp:TextBox runat="server" ID="TxtSize" CssClass="bsinputblue" TabIndex="1" Enabled="false" Width="150px" />
+                            </td>
+                            <td>
+                                <asp:TextBox runat="server" ID="TxtMRP" CssClass="bsinputred" TabIndex="1" Enabled="false" />
+                            </td>
+                            <td>
+                                <asp:TextBox runat="server" ID="TxtQty" CssClass="bsinputred" TabIndex="1" AutoPostBack="true"
+                                    OnTextChanged="TxtQty_TextChanged" ></asp:TextBox>
+                            </td>
+                            <td>
+                                <asp:Label runat="server" ID="LblTotal"></asp:Label>
+                            </td>
+                            <td>
+                                <asp:ImageButton ID="ImgBtnAdd" ImageUrl="assets/img/add.png" runat="server" TabIndex="10"
+                                    Height="20px" ValidationGroup="Child" OnClick="ImgBtnAdd_Click" CssClass="buttoncss" />
+                            </td>
+                        </tr>
+                    </table>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+            
+        </div>
+</asp:Content>
+

@@ -1,0 +1,273 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using App_Code;
+
+public partial class TranSalesInvNew : System.Web.UI.Page
+{
+    DataSet ds = new DataSet();
+    SqlInvoice cn = new SqlInvoice();
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        ds = cn.RunSql("sp_getsrno '0','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "'", "select");
+        TxtSRNo.Text = ds.Tables[0].Rows[0]["srno"] != DBNull.Value ? ds.Tables[0].Rows[0]["srno"].ToString() : "";
+
+        ds = cn.RunSql("sp_getaddless '1'", "select");
+        GvAddLess.DataSource = ds;
+        GvAddLess.DataBind();
+
+        //if (GvAddLess.Rows.Count > 0)
+        //{
+        //    foreach (GridViewRow row in GvAddLess.Rows)
+        //    {
+        //        RadioButton rdYes = (Label)row.FindControl("LblAccType");
+        //    }
+        //}
+
+        foreach (GridViewRow row in GvAddLess.Rows)
+        {
+            Label lblName = (Label)row.FindControl("LblAccType");
+            if (lblName.Text != "Other")
+            {
+                TextBox myTextBox = (TextBox)(row.Cells[4].FindControl("TxtAddLessPer"));
+                myTextBox.Style.Add("color", "red");
+            }
+        }
+
+        //GridViewRow row = GvAddLess.Rows[e.RowIndex];
+        //Label MyLabel = (Label)row.FindControl("MyLabel");
+
+
+    }
+    [System.Web.Script.Services.ScriptMethod()]
+    [System.Web.Services.WebMethod]
+    public static List<string> SearchItemGroup(string prefixText, int count)
+    {
+        DataSet ds = new DataSet();
+        SqlInvoice cn = new SqlInvoice();
+        List<string> zone = new List<string>();
+        string cnm = "";
+        ds = cn.RunSql("sp_Searchforautocomplete 'I','" + prefixText + "','" + HttpContext.Current.Request.Cookies["CompID"].Value + "'", "select");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                cnm = AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(ds.Tables[0].Rows[i]["cItemGroupName"].ToString(), ds.Tables[0].Rows[i]["nid"].ToString());
+                zone.Add(cnm);
+            }
+        }
+
+        return zone;
+    }
+    [System.Web.Script.Services.ScriptMethod()]
+    [System.Web.Services.WebMethod]
+    public static List<string> SearchItem(string prefixText, int count)
+    {
+        DataSet ds = new DataSet();
+        SqlInvoice cn = new SqlInvoice();
+        List<string> zone = new List<string>();
+        string cnm = "";
+        ds = cn.RunSql("sp_Searchforautocomplete 'Item','" + prefixText + "','" + HttpContext.Current.Request.Cookies["CompID"].Value + "','" + HttpContext.Current.Session["itrmgroupid"] + "'", "select");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                cnm = AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(ds.Tables[0].Rows[i]["cItem"].ToString(), ds.Tables[0].Rows[i]["nid"].ToString());
+                zone.Add(cnm);
+            }
+        }
+
+        return zone;
+    }
+    [System.Web.Script.Services.ScriptMethod()]
+    [System.Web.Services.WebMethod]
+    public static List<string> SearchCustomer(string prefixText, int count)
+    {
+        DataSet ds = new DataSet();
+        SqlInvoice cn = new SqlInvoice();
+        List<string> zone = new List<string>();
+        string cnm = "";
+        ds = cn.RunSql("sp_Searchforautocomplete 'Customer','" + prefixText + "','" + HttpContext.Current.Request.Cookies["CompID"].Value + "',''", "select");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                cnm = AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(ds.Tables[0].Rows[i]["cName"].ToString(), ds.Tables[0].Rows[i]["nid"].ToString());
+                zone.Add(cnm);
+            }
+        }
+
+        return zone;
+    }
+    protected void TxtItemName_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            ds = cn.RunSql("sp_selectitem '" + HifItem.Value + "',''", "select");
+            TxtDescription.Text = ds.Tables[0].Rows[0]["cDescription"] != DBNull.Value ? ds.Tables[0].Rows[0]["cDescription"].ToString() : "";
+            TxtSize.Text = ds.Tables[0].Rows[0]["nSize"] != DBNull.Value ? ds.Tables[0].Rows[0]["nSize"].ToString() : "";
+            TxtMRP.Text = ds.Tables[0].Rows[0]["nMRP"] != DBNull.Value ? ds.Tables[0].Rows[0]["nMRP"].ToString() : "";
+            TxtItemGroupName.Text = ds.Tables[0].Rows[0]["cItemGroupName"] != DBNull.Value ? ds.Tables[0].Rows[0]["cItemGroupName"].ToString() : "";
+            HifItemGroup.Value = ds.Tables[0].Rows[0]["ignid"] != DBNull.Value ? ds.Tables[0].Rows[0]["ignid"].ToString() : "";
+            TxtSaleRate.Text = ds.Tables[0].Rows[0]["nSaleRate"] != DBNull.Value ? ds.Tables[0].Rows[0]["nSaleRate"].ToString() : "";
+
+            //TxtDisPer.Focus();
+            //TxtQty.Focus();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void TxtQty_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            TxtSaleRate.Text = TxtSaleRate.Text == "" ? "0" : TxtSaleRate.Text;
+            TxtQty.Text = TxtQty.Text == "" ? "0" : TxtQty.Text;
+
+            LblTotal.Text = (Convert.ToDouble(TxtSaleRate.Text) * Convert.ToDouble(TxtQty.Text)).ToString("0.00");
+            ImgBtnAdd.Focus();
+        }
+        catch (Exception ex)
+        {
+
+        }
+    }
+    protected void ImgBtnAdd_Click(object sender, ImageClickEventArgs e)
+    {
+        try
+        {
+            TxtMRP.Text = TxtMRP.Text == "" ? "0" : TxtMRP.Text;
+            txtDiscPerChild.Text = txtDiscPerChild.Text == "" ? "0" : txtDiscPerChild.Text;
+            TxtDisRsChild.Text = TxtDisRsChild.Text == "" ? "0" : TxtDisRsChild.Text;
+            TxtSaleRate.Text = TxtSaleRate.Text == "" ? "0" : TxtSaleRate.Text;
+
+
+            if (Request.QueryString["id"] != null)
+            {
+                if (Request.QueryString["cid"] != null)
+                {
+                    ds = cn.RunSql("sp_addcsalestrans 'PUCU','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + Request.QueryString["cid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "'", "puci");
+                    Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+                }
+                else
+                {
+                    ds = cn.RunSql("sp_addcsalestrans 'PUCI','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "'", "puci");
+                    Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+                }
+            }
+            else
+            {
+                ds = cn.RunSql("sp_addcsalestrans 'I','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "'", "puci");
+                Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+            }
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+    }
+    protected void ImgDelete1_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+
+    }
+    protected void btnsave_Click(object sender, EventArgs e)
+    {
+        try
+        {
+
+        }
+        catch (Exception ex)
+        {
+
+        }
+        finally
+        {
+            ds.Dispose();
+        }
+
+    }
+    protected void btncancel_Click(object sender, EventArgs e)
+    {
+
+    }
+
+
+
+    protected void TxtItemGroupName_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            Session["itrmgroupid"] = HifItemGroup.Value;
+            TxtItemName.Focus();
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+
+    protected void txtDiscPerChild_TextChanged(object sender, EventArgs e)
+    {
+        TxtMRP.Text = TxtMRP.Text == "" ? "0" : TxtMRP.Text;
+        txtDiscPerChild.Text = txtDiscPerChild.Text == "" ? "0" : txtDiscPerChild.Text;
+        //TxtDisRsChild.Text = TxtDisRs.Text == "" ? "0" : TxtDisRs.Text;
+        TxtQty.Text = TxtQty.Text == "" ? "0" : TxtQty.Text;
+
+        TxtDisRsChild.Text = (Convert.ToDecimal(TxtMRP.Text) * Convert.ToDecimal(txtDiscPerChild.Text) / 100).ToString("0.00");
+        TxtSaleRate.Text = (Convert.ToDecimal(TxtMRP.Text) - Convert.ToDecimal(TxtDisRsChild.Text)).ToString("0.00");
+
+        LblTotal.Text = (Convert.ToDecimal(TxtSaleRate.Text) * Convert.ToDecimal(TxtQty.Text)).ToString("0.00");
+        TxtQty.Focus();
+    }
+    protected void TxtDisRsChild_TextChanged(object sender, EventArgs e)
+    {
+        TxtMRP.Text = TxtMRP.Text == "" ? "0" : TxtMRP.Text;
+        txtDiscPerChild.Text = txtDiscPerChild.Text == "" ? "0" : txtDiscPerChild.Text;
+        // TxtDisRsChild.Text = TxtDisRs.Text == "" ? "0" : TxtDisRs.Text;
+        TxtQty.Text = TxtQty.Text == "" ? "0" : TxtQty.Text;
+        txtDiscPerChild.Text = "0";
+        //TxtDisRs.Text = (Convert.ToDecimal(TxtMRP.Text) * Convert.ToDecimal(txtDiscPerChild.Text) / 100).ToString("0.00");
+        TxtSaleRate.Text = (Convert.ToDecimal(TxtMRP.Text) - Convert.ToDecimal(TxtDisRsChild.Text)).ToString("0.00");
+        LblTotal.Text = (Convert.ToDecimal(TxtSaleRate.Text) * Convert.ToDecimal(TxtQty.Text)).ToString("0.00");
+        TxtQty.Focus();
+    }
+
+
+    protected void TxtSaleRate_TextChanged(object sender, EventArgs e)
+    {
+        TxtMRP.Text = TxtMRP.Text == "" ? "0" : TxtMRP.Text;
+        txtDiscPerChild.Text = txtDiscPerChild.Text == "" ? "0" : txtDiscPerChild.Text;
+        //TxtDisRs.Text = TxtDisRs.Text == "" ? "0" : TxtDisRs.Text;
+        TxtQty.Text = TxtQty.Text == "" ? "0" : TxtQty.Text;
+        txtDiscPerChild.Text = "0";
+        TxtDisRsChild.Text = "0";
+        //TxtDisRs.Text = (Convert.ToDecimal(TxtMRP.Text) * Convert.ToDecimal(txtDiscPerChild.Text) / 100).ToString("0.00");
+        //TxtSaleRate.Text = (Convert.ToDecimal(TxtMRP.Text) - Convert.ToDecimal(TxtDisRs.Text)).ToString("0.00");
+        LblTotal.Text = (Convert.ToDecimal(TxtSaleRate.Text) * Convert.ToDecimal(TxtQty.Text)).ToString("0.00");
+        TxtQty.Focus();
+    }
+}
