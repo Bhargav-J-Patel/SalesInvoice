@@ -55,7 +55,7 @@
                     <i class="icon wb-list"></i><span class="spanList"></span>
                 </button>--%>
                 <button type="button" name="btnAdd" runat="server" id="btnAdd" class="btn btn-success AddList"
-                    onclick="location.href = 'MasterCustomer.aspx'" tabindex="5" style="float: right; margin-right: 4px;">
+                    onclick="location.href = 'MasterAcccount.aspx'" tabindex="5" style="float: right; margin-right: 4px;">
                     <i class="icon wb-plus" style="margin-left: 0px; padding-left: 0px;"></i><span class="spanNew"></span>
                 </button>
             </h2>

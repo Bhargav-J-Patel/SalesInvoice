@@ -32,6 +32,7 @@ public class ListPage : System.Web.Services.WebService
         public string dDate;
         public string nSrNo;
         public string cprint, GroupCode, GroupName;
+        public string nVouchNo, dVochDate, cCashBank;
 
         public string BranchID = HttpContext.Current.Request.Cookies["BranchID"].Value.ToString();
         public string CompID = HttpContext.Current.Request.Cookies["CompID"].Value.ToString();
@@ -794,6 +795,114 @@ public class ListPage : System.Web.Services.WebService
         JavaScriptSerializer js = new JavaScriptSerializer();
         Context.Response.Write(js.Serialize(result));
     }
+
+    [WebMethod]
+    public void ListReceipt(int iDisplayLength, int iDisplayStart, int iSortCol_0, string sSortDir_0, string sSearch)
+    {
+        int displayLength = iDisplayLength;
+        int displayStart = iDisplayStart;
+        int sortCol = iSortCol_0;
+        string sortDir = sSortDir_0;
+        string search = sSearch;
+
+
+        ListAll cls2 = new ListAll();
+        List<ListAll> myList = new List<ListAll>();
+
+
+
+        int filteredCount = 0;
+        DataSet DS = new DataSet();
+        SqlInvoice CN = new SqlInvoice();
+
+        DS = CN.RunSql("SP_ListTranReceipt '" + displayLength + "','" + displayStart + "','" + sortCol + "','" + sortDir + "','" + cls2.CompID + "','" + search + "'", "List");
+
+
+        if (DS.Tables.Count > 0)
+        {
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    ListAll cls = new ListAll();
+
+                    filteredCount = Convert.ToInt32(DS.Tables[0].Rows[i]["TotalCount"] != DBNull.Value ? DS.Tables[0].Rows[i]["TotalCount"].ToString() : "0");
+                    cls.nVouchNo = DS.Tables[0].Rows[i]["nVouchNo"] != DBNull.Value ? DS.Tables[0].Rows[i]["nVouchNo"].ToString() : "";
+                    cls.dVochDate = DS.Tables[0].Rows[i]["dVochDate"] != DBNull.Value ? DS.Tables[0].Rows[i]["dVochDate"].ToString() : "";
+                    cls.cCashBank = DS.Tables[0].Rows[i]["cCashBank"] != DBNull.Value ? DS.Tables[0].Rows[i]["cCashBank"].ToString() : "";
+                    cls.cName = DS.Tables[0].Rows[i]["cname"] != DBNull.Value ? DS.Tables[0].Rows[i]["cname"].ToString() : "";
+                    cls.cedit = DS.Tables[0].Rows[i]["cedit"] != DBNull.Value ? DS.Tables[0].Rows[i]["cedit"].ToString() : "";
+                    cls.cdelete = DS.Tables[0].Rows[i]["cdelete"] != DBNull.Value ? DS.Tables[0].Rows[i]["cdelete"].ToString() : "";
+
+                    myList.Add(cls);
+                }
+            }
+        }
+
+        var result = new
+        {
+            iTotalRecords = GetTotalCount("ListRec", ""),
+            //iTotalRecords = 5000,
+            iTotalDisplayRecords = filteredCount,
+            aaData = myList
+        };
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Context.Response.Write(js.Serialize(result));
+    }
+    [WebMethod]
+    public void ListPayment(int iDisplayLength, int iDisplayStart, int iSortCol_0, string sSortDir_0, string sSearch)
+    {
+        int displayLength = iDisplayLength;
+        int displayStart = iDisplayStart;
+        int sortCol = iSortCol_0;
+        string sortDir = sSortDir_0;
+        string search = sSearch;
+
+
+        ListAll cls2 = new ListAll();
+        List<ListAll> myList = new List<ListAll>();
+
+
+
+        int filteredCount = 0;
+        DataSet DS = new DataSet();
+        SqlInvoice CN = new SqlInvoice();
+
+        DS = CN.RunSql("SP_ListTranPayment '" + displayLength + "','" + displayStart + "','" + sortCol + "','" + sortDir + "','" + cls2.CompID + "','" + search + "'", "List");
+
+
+        if (DS.Tables.Count > 0)
+        {
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    ListAll cls = new ListAll();
+
+                    filteredCount = Convert.ToInt32(DS.Tables[0].Rows[i]["TotalCount"] != DBNull.Value ? DS.Tables[0].Rows[i]["TotalCount"].ToString() : "0");
+                    cls.nVouchNo = DS.Tables[0].Rows[i]["nVouchNo"] != DBNull.Value ? DS.Tables[0].Rows[i]["nVouchNo"].ToString() : "";
+                    cls.dVochDate = DS.Tables[0].Rows[i]["dVochDate"] != DBNull.Value ? DS.Tables[0].Rows[i]["dVochDate"].ToString() : "";
+                    cls.cCashBank = DS.Tables[0].Rows[i]["cCashBank"] != DBNull.Value ? DS.Tables[0].Rows[i]["cCashBank"].ToString() : "";
+                    cls.cName = DS.Tables[0].Rows[i]["cname"] != DBNull.Value ? DS.Tables[0].Rows[i]["cname"].ToString() : "";
+                    cls.cedit = DS.Tables[0].Rows[i]["cedit"] != DBNull.Value ? DS.Tables[0].Rows[i]["cedit"].ToString() : "";
+                    cls.cdelete = DS.Tables[0].Rows[i]["cdelete"] != DBNull.Value ? DS.Tables[0].Rows[i]["cdelete"].ToString() : "";
+
+                    myList.Add(cls);
+                }
+            }
+        }
+
+        var result = new
+        {
+            iTotalRecords = GetTotalCount("ListPay", ""),
+            //iTotalRecords = 5000,
+            iTotalDisplayRecords = filteredCount,
+            aaData = myList
+        };
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Context.Response.Write(js.Serialize(result));
+    }
+
     private int GetTotalCount(string pageName, string cType)
     {
         myClass m = new myClass();

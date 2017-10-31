@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Sales Tax Return" Language="C#" MasterPageFile="~/BillMaster.master" AutoEventWireup="true" CodeFile="TranSalesInvoiceReturn.aspx.cs" Inherits="TranSalesInvoiceReturn" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/BillMaster.master" AutoEventWireup="true" CodeFile="TranPurchaseInvoiceReturnInclude.aspx.cs" Inherits="TranPurchaseInvoiceReturnInclude" %>
 
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
@@ -6,12 +6,9 @@
         $(document).ready(function () {
             var ID = getParameterByName('id');
             if (ID != undefined) {
-
                 setTimeout(function () { document.getElementById("<%=TxtItemName.ClientID%>").focus(); }, 200);
-
             }
-
-         });
+        });
 
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -22,6 +19,8 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
+
+
         function select_ItemGroup(sender, e) {
             var hd = $get("<%=HifItemGroup.ClientID %>");
             hd.value = e.get_value();
@@ -52,18 +51,18 @@
 
         function ScuessMsg(type, ID) {
             if (type == 'PU' && ID != '') {
-                alertify.alert("You have Sucessfully Add Sales Invoice", function () {
-                    location.href = 'TranSalesInvoiceReturn.aspx';
+                alertify.alert("You have Sucessfully Add Purchase Invoice", function () {
+                    location.href = 'TranPurchaseInvoiceInclude.aspx';
                 });
             }
             else if (type == 'D' && ID == 'D') {
-                alertify.alert("You have Sucessfully Delete Sales Invoice! !", function () {
-                    location.href = 'ListTranSalesTaxInvoiceReturn.aspx';
+                alertify.alert("You have Sucessfully Delete Purchase Invoice! !", function () {
+                    location.href = 'TranPurchaseInvoiceInclude.aspx';
                 });
             }
             else {
-                alertify.alert("You have Sucessfully Update Sales Invoice! !", function () {
-                    location.href = 'ListTranSalesTaxInvoiceReturn.aspx';
+                alertify.alert("You have Sucessfully Update Purchase Invoice! !", function () {
+                    location.href = 'TranPurchaseInvoiceInclude.aspx';
                 });
             }
 
@@ -75,13 +74,13 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="panel">
         <div class="panel-heading">
-            <h2 class="panel-title">Sales Return(Exclue)
+            <h2 class="panel-title">Purchase Return(Include)
                 <button type="button" name="btnList" id="btnList" runat="server" class="btn btn-info AddList"
-                    onclick="location.href = 'ListTranSalesTaxInvoiceReturn.aspx'" tabindex="6015" style="float: right;">
+                    onclick="location.href = 'ListTranPurchaseInvoiceReturnInclude.aspx'" tabindex="6015" style="float: right;">
                     <i class="icon wb-list"></i><span class="spanList"></span>
                 </button>
                 <button type="button" name="btnAdd" id="btnAdd" runat="server" class="btn btn-success AddList"
-                    onclick="location.href = 'TranSalesInvoiceReturn.aspx'" tabindex="6014" style="float: right; margin-right: 4px;">
+                    onclick="location.href = 'TranPurchaseInvoice.aspx'" tabindex="6014" style="float: right; margin-right: 4px;">
                     <i class="icon wb-plus" style="margin-left: 0px; padding-left: 0px;"></i><span class="spanNew"></span>
                 </button>
             </h2>
@@ -105,12 +104,9 @@
                         <cc1:CalendarExtender runat="server" ID="CalendarExtenderdDate" TargetControlID="TxtDate"
                             BehaviorID="bCalendarExtenderdDate" CssClass="cal_Theme1" Format="dd/MM/yyyy"
                             PopupButtonID="ImageButton1"></cc1:CalendarExtender>
-                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="TxtDate"
-                            ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
-                            ValidationGroup="Main"></asp:RequiredFieldValidator>
                     </td>
                     <td>
-                        <strong class="contentLabel">Customer :</strong>
+                        <strong class="contentLabel">Supplier :</strong>
                         <asp:TextBox runat="server" ID="TxtCustomer" CssClass="bsinputgreen" TabIndex="1"
                             Style="background: #E6f2f2; border: 1px solid DarkGray; border-radius: 3px; height: 22px;"
                             Width="270px" />
@@ -169,7 +165,7 @@
                                 <strong class="contentLabel">Size</strong>
                             </td>
                             <td>
-                                <strong class="contentLabel">MRP</strong>
+                                <strong class="contentLabel">Pu Rate</strong>
                             </td>
                             <td>
                                 <strong class="contentLabel">Dis %</strong>
@@ -192,7 +188,7 @@
 
                             <td width="265px">
                                 <asp:TextBox runat="server" ID="TxtItemName" CssClass="bsinputgreen" AutoPostBack="true"
-                                    Style="background: #E6f2f2; border: 1px solid DarkGray; border-radius: 3px; height: 22px;"
+                                    Style="background: #E6f2f2; border: 1px solid DarkGray; border-radius: 3px;"
                                     Width="250px" TabIndex="1" OnTextChanged="TxtItemName_TextChanged" />
                                 <cc1:AutoCompleteExtender ServiceMethod="SearchItem" MinimumPrefixLength="1" OnClientItemSelected="select_Item"
                                     CompletionInterval="100" EnableCaching="false" CompletionSetCount="10" TargetControlID="TxtItemName"
@@ -228,16 +224,16 @@
                                     Width="150px" />
                             </td>
                             <td>
-                                <asp:TextBox runat="server" ID="TxtMRP" CssClass="bsinputred" TabIndex="1" Enabled="false" />
+                                <asp:TextBox runat="server" ID="TxtPurchaseRate" CssClass="bsinputred" TabIndex="1" AutoPostBack="true" OnTextChanged="TxtPurchaseRate_TextChanged" />
                             </td>
                             <td>
                                 <asp:TextBox runat="server" ID="txtDiscPerChild" CssClass="bsinputred" TabIndex="1" OnTextChanged="txtDiscPerChild_TextChanged" AutoPostBack="true" />
                             </td>
                             <td>
-                                <asp:TextBox runat="server" ID="TxtDisRsChild" CssClass="bsinputred" TabIndex="1" OnTextChanged="TxtDisRsChild_TextChanged" Enabled="false" />
+                                <asp:TextBox runat="server" ID="TxtDisRsChild" CssClass="bsinputred" TabIndex="1" OnTextChanged="TxtDisRsChild_TextChanged" AutoPostBack="true" />
                             </td>
                             <td>
-                                <asp:TextBox runat="server" ID="TxtSaleRate" CssClass="bsinputred" TabIndex="1" OnTextChanged="TxtSaleRate_TextChanged" AutoPostBack="true" />
+                                <asp:TextBox runat="server" ID="TxtMRP" CssClass="bsinputred" TabIndex="1" />
                             </td>
                             <td>
                                 <asp:TextBox runat="server" ID="TxtQty" CssClass="bsinputred" TabIndex="1" AutoPostBack="true"
@@ -265,15 +261,15 @@
                         <asp:BoundField HeaderText="Item Group" DataField="cItemGroupName" />
                         <asp:BoundField HeaderText="Description" DataField="cDescription" />
                         <asp:BoundField HeaderText="Size" DataField="nSize" Visible="false" />
-                        <asp:BoundField HeaderText="MRP" DataField="nMRP" />
-                        <asp:BoundField HeaderText="Disc(%)" DataField="nDisPer" />
-                        <asp:BoundField HeaderText="DiscRs" DataField="nDisRs" />
+                        <asp:BoundField HeaderText="Purchase Rate" DataField="nPurchaseRate" />
+                        <asp:BoundField HeaderText="Disc %" DataField="nDisPer" />
+                        <asp:BoundField HeaderText="Disc Rs" DataField="nDisRs" />
                         <asp:BoundField HeaderText="Sales Rate" DataField="nSaleRate" />
                         <asp:BoundField HeaderText="Qty" DataField="nqty" />
                         <asp:BoundField HeaderText="Total" DataField="nTotal" />
                         <asp:TemplateField HeaderText="Edit" ItemStyle-Width="5%">
                             <ItemTemplate>
-                                <a href="TranSalesInvoiceReturn.aspx?id=<%# DataBinder.Eval(Container.DataItem,"cPNID")%>&cid=<%# DataBinder.Eval(Container.DataItem , "NID") %>">
+                                <a href="TranPurchaseInvoice.aspx?id=<%# DataBinder.Eval(Container.DataItem,"cPNID")%>&cid=<%# DataBinder.Eval(Container.DataItem , "NID") %>">
                                     <asp:Image ID="ImgEdit" ImageUrl="assets/img/edit.png" runat="server" title="Edit" />
                                 </a>
                             </ItemTemplate>
@@ -293,16 +289,17 @@
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-2 top-buffer" style="font-weight: bold;">
                         <strong style="font-size: 16px; font-weight: bold;">Total Qty : </strong>
-                        <asp:Label runat="server" ID="LblTotalQty" Style="font-size: 16px;"></asp:Label>
+                        <asp:Label runat="server" ID="LblTotalQty"></asp:Label>
                     </div>
                     <div class="col-lg-3 col-md-3 col-sm-3 top-buffer" style="font-weight: bold;">
                         <strong style="font-size: 16px; font-weight: bold;">Gross Rs : </strong>
-                        <asp:Label runat="server" ID="LblGrossRs" Style="font-size: 16px;"></asp:Label>
+                        <asp:Label runat="server" ID="LblGrossRs"></asp:Label>
                     </div>
                 </div>
             </div>
             <asp:UpdatePanel runat="server" ID="up2">
                 <ContentTemplate>
+
                     <div class="col-lg-12 col-md-12 col-sm-12" style="border-top: 1px solid grey;">
                         <div class="col-lg-12 col-md-12 col-sm-12">
                         </div>
@@ -317,14 +314,15 @@
                         <div class="col-lg-1 col-md-1 col-sm-1" style="text-align: right">
                             <strong>CGST</strong>
                         </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter">
+                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter" style="">
                             <asp:TextBox runat="server" ID="TxtVatPer" CssClass="bsinputred" TabIndex="1" AutoPostBack="true" Style="display: none"
                                 OnTextChanged="TxtVatPer_TextChanged" />
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 inputLeft">
+                        <div class="col-lg-2 col-md-2 col-sm-2 inputLeft" style="">
                             <asp:TextBox runat="server" ID="TxtVatRs" CssClass="bsinputred" TabIndex="1" Enabled="false" />
                         </div>
                     </div>
+
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
                         </div>
@@ -365,6 +363,9 @@
                             <asp:TextBox runat="server" ID="TxtIGST" CssClass="bsinputred" TabIndex="1" Enabled="false" />
                         </div>
                     </div>
+
+
+
                     <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
                         </div>
@@ -385,26 +386,12 @@
                             <asp:TextBox runat="server" ID="LblAmt" CssClass="bsinputred" TabIndex="1" Enabled="false" />
                             <%--<asp:Label runat="server" ID="LblAmt"></asp:Label>--%>
                         </div>
-                    </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="display: none">
-                        <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
+                        <%--<div class="col-lg-1 col-md-1 col-sm-1 inputCenter" >
                         </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 inputCenter">
-                        </div>
-                        <div class="col-lg-3 col-md-3 col-sm-3 inputCenter">
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter">
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 inputRight" style="text-align: right">
-                            <strong>Disc</strong>
-                        </div>
-                        <div class="col-lg-1 col-md-1 col-sm-1 inputRight" style="text-align: right;">
-                            <asp:TextBox runat="server" ID="TxtDisPer" CssClass="bsinputred" TabIndex="1" AutoPostBack="true"
-                                OnTextChanged="TxtDisPer_TextChanged" />
-                        </div>
-                        <div class="col-lg-2 col-md-2 col-sm-2 inputLeft">
-                            <asp:TextBox runat="server" ID="TxtDisRs" CssClass="bsinputred" TabIndex="1" AutoPostBack="true" OnTextChanged="TxtDisRS_TextChanged" />
-                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 inputCenter" style=" margin-left: 100px;">
+                            <asp:TextBox runat="server" ID="LblAmt" CssClass="bsinputred" TabIndex="1" Enabled="false" />
+                        
+                        </div>--%>
                     </div>
 
                     <div class="col-lg-12 col-md-12 col-sm-12 top-buffer">
@@ -450,8 +437,26 @@
                         </div>
                     </div>
 
-                    <br />
-                    <br />
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="display: none">
+                        <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 inputCenter">
+                        </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 inputCenter">
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter">
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter" style="text-align: right">
+                            <strong>Disc</strong>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-1 inputCenter">
+                            <asp:TextBox runat="server" ID="TxtDisPer" CssClass="bsinputred" TabIndex="1" AutoPostBack="true"
+                                OnTextChanged="TxtDisPer_TextChanged" />
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 inputLeft">
+                            <asp:TextBox runat="server" ID="TxtDisRs" CssClass="bsinputred" TabIndex="1" Enabled="false" />
+                        </div>
+                    </div>
                     <br />
                     <br />
                     <br />
@@ -476,8 +481,7 @@
                         <div class="col-lg-2 col-md-2 col-sm-2 inputLeft">
                         </div>
                     </div>
-                    <br />
-                    <br />
+
                     <div class="BottomFixed">
                         <%-- <button type="button" name="btnSave" id="btnSave" class="btn btn-success SaveCancel btnSave"
                     tabindex="6012" onclick="FinalSave()">
@@ -512,19 +516,24 @@
                         <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%;">
                             &nbsp;
                         </div>
-                        <div style="padding-top: 3px; font-weight: bold; font-size: 20px; display: inline-block; margin-left: 5%;">
+                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%; font-size: 20px;">
                             <span class="contentLabel">Net Rs</span>&nbsp;:&nbsp;&nbsp;<asp:Label runat="server"
                                 ID="LblNetRs"></asp:Label>
                         </div>
                 </ContentTemplate>
             </asp:UpdatePanel>
+
         </div>
+
     </div>
     <br />
     <br />
     <br />
     <br />
+    <br />
+    <br />
 </asp:Content>
+
 
 
 

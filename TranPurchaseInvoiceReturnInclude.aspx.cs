@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 using System.Data;
 using App_Code;
 
-public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
+public partial class TranPurchaseInvoiceReturnInclude : System.Web.UI.Page
 {
     DataSet ds = new DataSet();
     SqlInvoice cn = new SqlInvoice();
@@ -19,7 +19,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
             try
             {
 
-                ds = cn.RunSql("sp_getsrno '1','1','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "'", "select");
+                ds = cn.RunSql("sp_getsrno '1','3','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "'", "select");
                 TxtSRNo.Text = ds.Tables[0].Rows[0]["srno"] != DBNull.Value ? ds.Tables[0].Rows[0]["srno"].ToString() : "";
                 ds = cn.RunSql("sp_getaddlesspurchase '2'", "select");
                 GvAddLess.DataSource = ds;
@@ -65,7 +65,6 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
                     GVItem.DataBind();
                     GvAddLess.DataSource = ds.Tables[4];
                     GvAddLess.DataBind();
-
                     if (Request.QueryString["cid"] != null)
                     {
                         ds = cn.RunSql("sp_listPurchase '" + Request.QueryString["id"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + Request.QueryString["cid"] + "'", "select");
@@ -196,29 +195,31 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
     {
         try
         {
+
             string str = "";
             for (int i = 0; i < GvAddLess.Rows.Count; i++)
             {
                 str = str + (GvAddLess.Rows[i].FindControl("LblNID") as Label).Text + "¥" + (GvAddLess.Rows[i].FindControl("LblAddLess") as Label).Text + "¥" + (GvAddLess.Rows[i].FindControl("TxtAddLessPer") as TextBox).Text + "¥" + (GvAddLess.Rows[i].FindControl("TxtAddLessRs") as TextBox).Text + "¥";
             }
 
+
             if (Request.QueryString["id"] != null)
             {
                 if (Request.QueryString["cid"] != null)
                 {
-                    ds = cn.RunSql("sp_addcPurchasetrans 'PUCU','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + Request.QueryString["cid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
-                    Response.Redirect("TranPurchaseInvoiceReturn.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+                    ds = cn.RunSql("sp_addcPurchasetransinclude 'PUCU','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + Request.QueryString["cid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                    Response.Redirect("TranPurchaseInvoiceInclude.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
                 }
                 else
                 {
-                    ds = cn.RunSql("sp_addcPurchasetrans 'PUCI','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
-                    Response.Redirect("TranPurchaseInvoiceReturn.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+                    ds = cn.RunSql("sp_addcPurchasetransinclude 'PUCI','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                    Response.Redirect("TranPurchaseInvoiceInclude.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
                 }
             }
             else
             {
-                ds = cn.RunSql("sp_addcPurchasetrans 'I','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
-                Response.Redirect("TranPurchaseInvoiceReturn.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
+                ds = cn.RunSql("sp_addcPurchasetransinclude 'I','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                Response.Redirect("TranPurchaseInvoiceInclude.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
             }
         }
         catch (Exception ex)
@@ -240,6 +241,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
             string cnid = "";
             string confirmval = "";
             confirmval = Request.Form["confirm_value"];
+
             string str = "";
             for (int i = 0; i < GvAddLess.Rows.Count; i++)
             {
@@ -249,8 +251,8 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
             if (confirmval == "Yes")
             {
                 cnid = GVItem.Rows[row.RowIndex].Cells[0].Text;
-                ds = cn.RunSql("sp_addcPurchasetrans 'PUCD','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + cnid + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','','','','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
-                Response.Redirect("TranPurchaseInvoiceReturn.aspx?id=" + ds.Tables[0].Rows[0][0] + "");
+                ds = cn.RunSql("sp_addcPurchasetransinclude 'PUCD','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + cnid + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','','','','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                Response.Redirect("TranPurchaseInvoiceInclude.aspx?id=" + ds.Tables[0].Rows[0][0] + "");
             }
         }
         catch (Exception ex)
@@ -267,6 +269,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
     {
         try
         {
+
             string str = "";
             for (int i = 0; i < GvAddLess.Rows.Count; i++)
             {
@@ -277,7 +280,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
             {
                 if (ddldelete.SelectedValue == "Yes")
                 {
-                    ds = cn.RunSql("sp_addcPurchasetrans 'd','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                    ds = cn.RunSql("sp_addcPurchasetransinclude 'd','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ScuessMsg('D','D')", true);
                     //Response.Redirect("TranPurchaseInvoice.aspx");
                 }
@@ -285,7 +288,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
             else
             {
 
-                ds = cn.RunSql("sp_addcPurchasetrans 'PU','1','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
+                ds = cn.RunSql("sp_addcPurchasetransinclude 'PU','3','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtPurchaseRate.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtMRP.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                 //Response.Redirect("TranPurchaseInvoice.aspx");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ScuessMsg('PU','" + Request.QueryString["ID"].ToString() + "')", true);
             }
@@ -406,6 +409,7 @@ public partial class TranPurchaseInvoiceReturn : System.Web.UI.Page
         LblTotal.Text = (Convert.ToDecimal(TxtQty.Text) * Convert.ToDecimal(Convert.ToDecimal(TxtPurchaseRate.Text) - Convert.ToDecimal(TxtDisRsChild.Text))).ToString("0.00");
         TxtQty.Focus();
     }
+
     protected void TxtAddLessPer_TextChanged(object sender, EventArgs e)
     {
         try

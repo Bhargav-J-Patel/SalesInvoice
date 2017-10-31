@@ -26,7 +26,7 @@ public partial class MasterGroup : System.Web.UI.Page
                     TxtGroupCode.Text = ds.Tables[0].Rows[0]["cGroupCode"] != DBNull.Value ? ds.Tables[0].Rows[0]["cGroupCode"].ToString() : "";
                     TxtGroupPosition.Text = ds.Tables[0].Rows[0]["nGroupPosition"] != DBNull.Value ? ds.Tables[0].Rows[0]["nGroupPosition"].ToString() : "";
                     DDLAccType.SelectedValue = ds.Tables[0].Rows[0]["cAccType"] != DBNull.Value ? ds.Tables[0].Rows[0]["cAccType"].ToString() : "";
-
+                    DDLGroupType.SelectedValue = ds.Tables[0].Rows[0]["cGrpCode"] != DBNull.Value ? ds.Tables[0].Rows[0]["cGrpCode"].ToString() : "";
 
                     if (Request.QueryString["D"] == "1")
                     {
@@ -55,7 +55,7 @@ public partial class MasterGroup : System.Web.UI.Page
             {
                 if (Request.QueryString["E"] == "1")
                 {
-                    ds = cn.RunSql("sp_addgroup 'U','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["id"] + "'", "insert");
+                    ds = cn.RunSql("sp_addgroup 'U','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["id"] + "','"+ DDLGroupType.SelectedValue +"'", "insert");
                     ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "ScuessMsg('U')", true);
 
                 }
@@ -63,7 +63,7 @@ public partial class MasterGroup : System.Web.UI.Page
                 {
                     if (ddldelete.SelectedValue == "Yes")
                     {
-                        ds = cn.RunSql("sp_addgroup 'D','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["id"] + "'", "insert");
+                        ds = cn.RunSql("sp_addgroup 'D','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["id"] + "','" + DDLGroupType.SelectedValue + "'", "insert");
                         ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "ScuessMsg('D')", true);
                     }
                 }
@@ -71,7 +71,7 @@ public partial class MasterGroup : System.Web.UI.Page
             }
             else
             {
-                ds = cn.RunSql("sp_addgroup 'I','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "',''", "insert");
+                ds = cn.RunSql("sp_addgroup 'I','" + TxtGroupName.Text + "','" + TxtGroupCode.Text + "','" + TxtGroupPosition.Text + "','" + DDLAccType.Text + "','" + Request.Cookies["CompID"].Value + "','','" + DDLGroupType.SelectedValue + "'", "insert");
                 ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "ScuessMsg('I')", true);
 
             }

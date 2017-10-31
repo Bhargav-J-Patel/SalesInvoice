@@ -60,7 +60,7 @@
                             ValidationGroup="Main"></asp:RequiredFieldValidator>
                     </div>
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
-                        <strong class="contentLabel">ContactPerson</strong>
+                        <strong class="contentLabel">Short Name</strong>
                     </div>
                     <div class="col-lg-3 col-md-3
         col-sm-3 col-xs-12">
@@ -152,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row top-buffer">
+            <div class="row top-buffer" style="display:none">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                         <strong class="contentLabel">State code</strong>
@@ -172,7 +172,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row top-buffer">
+            <div class="row top-buffer" style="display:none">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                         <strong class="contentLabel">PAN No</strong>
@@ -194,7 +194,7 @@
             </div>
        
 
-         <div class="row top-buffer">
+         <div class="row top-buffer" style="display:none">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                         <strong class="contentLabel">Bank No</strong>
@@ -216,7 +216,7 @@
             </div>
         
 
-        <div class="row top-buffer">
+        <div class="row top-buffer" style="display:none">
                 <div class="col-lg-12 col-md-12 col-sm-12">
                     <div class="col-lg-1 col-md-1 col-sm-1 col-xs-12">
                         <strong class="contentLabel">Account No</strong>

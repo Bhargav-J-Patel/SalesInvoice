@@ -50,7 +50,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="panel">
         <div class="panel-heading">
-            <h2 class="panel-title">List Purchase
+            <h2 class="panel-title">List Purchase(Exculde)
                <%-- <button type="button" name="btnList" runat="server" id="btnList" class="btn btn-info AddList"
                     onclick="location.href = 'ListMasterItemGroup.aspx'" tabindex="4" style="float: right;">
                     <i class="icon wb-list"></i><span class="spanList"></span>

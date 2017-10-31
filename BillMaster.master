@@ -74,6 +74,7 @@
                                                 <div>
                                                     <ul class="site-menu-sub site-menu-normal-list">
                                                     <li class="site-menu-item"><a class="animsition-link" href="MasterGroup.aspx"><span class="site-menu-title">Group Master</span> </a></li>
+                                                    <li class="site-menu-item"><a class="animsition-link" href="MasterAcccount.aspx"><span class="site-menu-title">Account Master</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="MasterItemGroup.aspx"><span class="site-menu-title">Item Group</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="MasterItem.aspx"><span class="site-menu-title">Item</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="Mastercustomer.aspx"><span class="site-menu-title">Customer</span> </a></li>
@@ -91,12 +92,16 @@
                                             <div>
                                                 <div>
                                                     <ul class="site-menu-sub site-menu-normal-list">
-                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoice.aspx"><span class="site-menu-title">Purchase Invoice</span> </a></li>
-                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoiceReturn.aspx"><span class="site-menu-title">Purchase Invoice Return</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoice.aspx"><span class="site-menu-title">Purchase (Exclude)</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoiceInclude.aspx"><span class="site-menu-title">Purchase (Include)</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoiceReturn.aspx"><span class="site-menu-title">Purchase Return(Exclude)</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPurchaseInvoiceReturnInclude.aspx"><span class="site-menu-title">Purchase Return(Include)</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="TranSalesInvoice.aspx"><span class="site-menu-title">Sales Invoice(Exclude)</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="TranSalesRetailInvoice.aspx"><span class="site-menu-title">Sales Invoice(Include)</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="TranSalesInvoiceReturn.aspx"><span class="site-menu-title">Sales Return(Exclude)</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="TranSalesRetailInvoiceReturn.aspx"><span class="site-menu-title">Sales Return(Include)</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranReceipt.aspx"><span class="site-menu-title">Receipt</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="TranPayment.aspx"><span class="site-menu-title">Payment</span> </a></li>
                                                         <%-- <li class="site-menu-item"><a class="animsition-link" href="TranSalesTaxInvoice.aspx"><span class="site-menu-title">
                                                         Sales Tax Invoice</span> </a></li>
                                                         --%>

@@ -3,7 +3,7 @@
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="cc1" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
     <script type="text/javascript">
-         $(document).ready(function () {
+        $(document).ready(function () {
             var ID = getParameterByName('id');
             if (ID != undefined) {
 
@@ -11,7 +11,7 @@
 
             }
 
-        });
+         });
 
         function getParameterByName(name, url) {
             if (!url) url = window.location.href;
@@ -105,7 +105,7 @@
                         <cc1:CalendarExtender runat="server" ID="CalendarExtenderdDate" TargetControlID="TxtDate"
                             BehaviorID="bCalendarExtenderdDate" CssClass="cal_Theme1" Format="dd/MM/yyyy"
                             PopupButtonID="ImageButton1"></cc1:CalendarExtender>
-                            <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="TxtDate"
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ControlToValidate="TxtDate"
                             ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
                             ValidationGroup="Main"></asp:RequiredFieldValidator>
                     </td>
@@ -124,25 +124,28 @@
                             ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
                             ValidationGroup="Main" Display="Dynamic"></asp:RequiredFieldValidator>
                         <asp:HiddenField ID="HifCustomer" runat="server" />
-                         <asp:DropDownList ID="DDLCashCredit" runat="server" TabIndex="1">
+                        <asp:DropDownList ID="DDLCashCredit" runat="server" TabIndex="1">
                             <asp:ListItem Value="0">Cash</asp:ListItem>
                             <asp:ListItem Value="1">Credit</asp:ListItem>
                         </asp:DropDownList>
                     </td>
                     <td>
-                        <strong class="contentLabel">Transporter ID</strong>
+                        <strong class="contentLabel">Sales Account</strong>
+                        <asp:DropDownList runat="server" ID="DDLSalesAccount" TabIndex="4" CssClass="bsinputblue" Style="width: 150px;" DataTextField="cName" DataValueField="NID">
+                        </asp:DropDownList>
+                        <%--<strong class="contentLabel">Transporter ID</strong>--%>
                         <asp:TextBox runat="server" ID="TxtTransporterID" CssClass="bsinputblue" TabIndex="1"
-                            Style="width: 120px;" />
+                            Style="width: 120px; display: none;" />
                     </td>
                     <td>
-                        <strong class="contentLabel">Transporter Name</strong>
+                        <%--<strong class="contentLabel">Transporter Name</strong>--%>
                         <asp:TextBox runat="server" ID="TxtTransporterName" CssClass="bsinputblue" TabIndex="1"
-                            Style="width: 120px;" />
+                            Style="width: 120px; display: none;" />
                     </td>
                     <td>
-                        <strong class="contentLabel">VehicleNo</strong>
+                        <%--<strong class="contentLabel">VehicleNo</strong>--%>
                         <asp:TextBox runat="server" ID="TxtVehicleNo" CssClass="bsinputblue" TabIndex="1"
-                            Style="width: 100px;" />
+                            Style="width: 100px; display: none;" />
                     </td>
                 </tr>
             </table>
@@ -383,7 +386,7 @@
                             <%--<asp:Label runat="server" ID="LblAmt"></asp:Label>--%>
                         </div>
                     </div>
-                    <div class="col-lg-12 col-md-12 col-sm-12" style="display:none">
+                    <div class="col-lg-12 col-md-12 col-sm-12" style="display: none">
                         <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 inputCenter">
@@ -403,50 +406,58 @@
                             <asp:TextBox runat="server" ID="TxtDisRs" CssClass="bsinputred" TabIndex="1" AutoPostBack="true" OnTextChanged="TxtDisRS_TextChanged" />
                         </div>
                     </div>
-                   
-                     <div class="col-lg-12 col-md-12 col-sm-12 top-buffer">
-                <div class="col-lg-12 col-md-12 col-sm-12 top-buffer">
-                    <div class="col-lg-8 col-md-8 col-sm-8 top-buffer">
-                    </div>
-                    <div class="col-lg-4 col-md-4 col-sm-4 top-buffer">
-                        <asp:GridView ID="GvAddLess" runat="server" AutoGenerateColumns="false" class="table1 table-responsive table-bordered table-hover">
-                            <Columns>
-                                <%--<asp:BoundField DataField="NID" HeaderText="" ItemStyle-Width="1px" ItemStyle-ForeColor="Transparent"
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 top-buffer">
+                        <div class="col-lg-12 col-md-12 col-sm-12 top-buffer">
+                            <div class="col-lg-8 col-md-8 col-sm-8 top-buffer">
+                            </div>
+                            <div class="col-lg-4 col-md-4 col-sm-4 top-buffer">
+                                <asp:GridView ID="GvAddLess" runat="server" AutoGenerateColumns="false" class="table1 table-responsive table-bordered table-hover">
+                                    <Columns>
+                                        <%--<asp:BoundField DataField="NID" HeaderText="" ItemStyle-Width="1px" ItemStyle-ForeColor="Transparent"
                                     ItemStyle-Font-Size="1px" />--%>
-                                <%--<asp:BoundField HeaderText="" DataField="cAccountType" ItemStyle-Font-Size="1px"
+                                        <%--<asp:BoundField HeaderText="" DataField="cAccountType" ItemStyle-Font-Size="1px"
                                     ItemStyle-ForeColor="Transparent" />--%>
-                                <asp:TemplateField HeaderText="" ItemStyle-Font-Size="1px" ItemStyle-ForeColor="Transparent">
-                                    <ItemStyle Width="1px" ></ItemStyle>
-                                    <ItemTemplate >
-                                        <asp:Label ID="LblNID" runat="server" Text='<%# Bind("NID") %>'>
-                                        </asp:Label></ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:BoundField HeaderText="Acc" DataField="cDescription" />
-                                <%--<asp:BoundField HeaderText="Addless" DataField="cAddless" />--%>
+                                        <asp:TemplateField HeaderText="" ItemStyle-Font-Size="1px" ItemStyle-ForeColor="Transparent">
+                                            <ItemStyle Width="1px"></ItemStyle>
+                                            <ItemTemplate>
+                                                <asp:Label ID="LblNID" runat="server" Text='<%# Bind("NID") %>'>
+                                                </asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:BoundField HeaderText="Acc" DataField="cDescription" />
+                                        <%--<asp:BoundField HeaderText="Addless" DataField="cAddless" />--%>
 
-                                 <asp:TemplateField HeaderText="Addless" ItemStyle-Width="15px">
-                                    <ItemTemplate>
-                                        <asp:Label ID="LblAddLess" runat="server" Text='<%# Bind("cAddless") %>'></asp:Label>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Addless" ItemStyle-Width="15px">
+                                            <ItemTemplate>
+                                                <asp:Label ID="LblAddLess" runat="server" Text='<%# Bind("cAddless") %>'></asp:Label>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
 
-                                <asp:TemplateField HeaderText="Per%" ItemStyle-Width="15px">
-                                    <ItemTemplate>
-                                        <asp:TextBox ID="TxtAddLessPer" runat="server" CssClass="bsinputred"  Text='<%# Bind("nPer") %>' AutoPostBack="true" OnTextChanged="TxtAddLessPer_TextChanged"></asp:TextBox>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Amt">
-                                    <ItemTemplate>
-                                        <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' Enabled=false></asp:TextBox>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-                            </Columns>
-                        </asp:GridView>
+                                        <asp:TemplateField HeaderText="Per%" ItemStyle-Width="15px">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="TxtAddLessPer" runat="server" CssClass="bsinputred" Text='<%# Bind("nPer") %>' AutoPostBack="true" OnTextChanged="TxtAddLessPer_TextChanged"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField HeaderText="Amt">
+                                            <ItemTemplate>
+                                                <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' Enabled="false"></asp:TextBox>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-            <br /><br /><br /><br /><br /><br /><br /><br />
-             <div class="col-lg-12 col-md-12 col-sm-12">
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <br />
+                    <div class="col-lg-12 col-md-12 col-sm-12">
                         <div class="col-lg-2 col-md-2 col-sm-2" style="text-align: center;">
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 inputCenter">
@@ -459,13 +470,13 @@
                             <strong>Round Off</strong>
                         </div>
                         <div class="col-lg-1 col-md-1 col-sm-1 inputRight" style="text-align: right;">
-                          <asp:Label runat="server" ID="LblRoundOff"></asp:Label>
+                            <asp:Label runat="server" ID="LblRoundOff"></asp:Label>
                         </div>
                         <div class="col-lg-2 col-md-2 col-sm-2 inputLeft">
-                           
                         </div>
                     </div>
-                     <br /><br />
+                    <br />
+                    <br />
                     <div class="BottomFixed">
                         <asp:DropDownList ID="ddldelete" runat="server" Visible="false">
                             <asp:ListItem>No</asp:ListItem>

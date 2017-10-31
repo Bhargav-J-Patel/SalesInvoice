@@ -24,11 +24,17 @@ public partial class TranSalesInvoice : System.Web.UI.Page
                 ds = cn.RunSql("sp_getaddless '1'", "select");
                 GvAddLess.DataSource = ds;
                 GvAddLess.DataBind();
+
+                ds = cn.RunSql("sp_Searchaccount 'Sales','" + Request.Cookies["CompID"].Value + "'", "Sales");
+                DDLSalesAccount.DataSource = ds;
+                DDLSalesAccount.DataBind();
+
                 if (Request.QueryString["id"] != null)
                 {
                     ds = cn.RunSql("sp_listsales '" + Request.QueryString["id"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "'", "select");
                     TxtSRNo.Text = ds.Tables[0].Rows[0]["nSrNo"] != DBNull.Value ? ds.Tables[0].Rows[0]["nSrNo"].ToString() : "";
                     TxtDate.Text = ds.Tables[0].Rows[0]["dDate"] != DBNull.Value ? ds.Tables[0].Rows[0]["dDate"].ToString() : "";
+                    DDLSalesAccount.SelectedValue = ds.Tables[0].Rows[0]["cSalesAcc"] != DBNull.Value ? ds.Tables[0].Rows[0]["cSalesAcc"].ToString() : "";
                     LblGrossRs.Text = ds.Tables[0].Rows[0]["nGrossRs"] != DBNull.Value ? ds.Tables[0].Rows[0]["nGrossRs"].ToString() : "";
                     TxtVatPer.Text = ds.Tables[0].Rows[0]["nVatPer"] != DBNull.Value ? ds.Tables[0].Rows[0]["nVatPer"].ToString() : "";
 
@@ -212,22 +218,27 @@ public partial class TranSalesInvoice : System.Web.UI.Page
                 str = str + (GvAddLess.Rows[i].FindControl("LblNID") as Label).Text + "¥" + (GvAddLess.Rows[i].FindControl("LblAddLess") as Label).Text + "¥" + (GvAddLess.Rows[i].FindControl("TxtAddLessPer") as TextBox).Text + "¥" + (GvAddLess.Rows[i].FindControl("TxtAddLessRs") as TextBox).Text + "¥";
             }
 
+            if (HifCustomer.Value == "")
+            {
+                return;
+            }
+
             if (Request.QueryString["id"] != null)
             {
                 if (Request.QueryString["cid"] != null)
                 {
-                    ds = cn.RunSql("sp_addcsalestrans 'PUCU','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + Request.QueryString["cid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "'", "puci");
+                    ds = cn.RunSql("sp_addcsalestrans 'PUCU','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + Request.QueryString["cid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                     Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
                 }
                 else
                 {
-                    ds = cn.RunSql("sp_addcsalestrans 'PUCI','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "'", "puci");
+                    ds = cn.RunSql("sp_addcsalestrans 'PUCI','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                     Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
                 }
             }
             else
             {
-                ds = cn.RunSql("sp_addcsalestrans 'I','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "'", "puci");
+                ds = cn.RunSql("sp_addcsalestrans 'I','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                 Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "&E=1");
             }
         }
@@ -265,7 +276,7 @@ public partial class TranSalesInvoice : System.Web.UI.Page
 
 
                 cnid = GVItem.Rows[row.RowIndex].Cells[0].Text;
-                ds = cn.RunSql("sp_addcsalestrans 'PUCD','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + cnid + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "'", "puci");
+                ds = cn.RunSql("sp_addcsalestrans 'PUCD','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','" + cnid + "','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                 Response.Redirect("TranSalesInvoice.aspx?id=" + ds.Tables[0].Rows[0][0] + "");
             }
         }
@@ -298,7 +309,7 @@ public partial class TranSalesInvoice : System.Web.UI.Page
             {
                 if (ddldelete.SelectedValue == "Yes")
                 {
-                    ds = cn.RunSql("sp_addcsalestrans 'd','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "'", "puci");
+                    ds = cn.RunSql("sp_addcsalestrans 'd','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','','" + DDLSalesAccount.SelectedValue + "'", "puci");
                     ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ScuessMsg('D','D')", true);
                     //Response.Redirect("TranSalesInvoice.aspx");
                 }
@@ -306,7 +317,7 @@ public partial class TranSalesInvoice : System.Web.UI.Page
             else
             {
 
-                ds = cn.RunSql("sp_addcsalestrans 'PU','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "'", "puci");
+                ds = cn.RunSql("sp_addcsalestrans 'PU','0','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                 //Response.Redirect("TranSalesInvoice.aspx");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ScuessMsg('PU','" + Request.QueryString["ID"].ToString() + "')", true);
             }
