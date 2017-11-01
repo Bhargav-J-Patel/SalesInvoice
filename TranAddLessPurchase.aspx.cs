@@ -29,6 +29,8 @@ public partial class TranAddLessPurchase : System.Web.UI.Page
                         TxtRs.Text = ds.Tables[0].Rows[0]["nRs"] != DBNull.Value ? ds.Tables[0].Rows[0]["nRs"].ToString() : "0";
                         DDLCountBelow.SelectedValue = ds.Tables[0].Rows[0]["nCountOnTotal"] != DBNull.Value ? ds.Tables[0].Rows[0]["nCountOnTotal"].ToString() : "0";
                         DDLType.SelectedValue = ds.Tables[0].Rows[0]["cAccountType"] != DBNull.Value ? ds.Tables[0].Rows[0]["cAccountType"].ToString() : "";
+                        TxtAccount.Text = ds.Tables[0].Rows[0]["cname"] != DBNull.Value ? ds.Tables[0].Rows[0]["cname"].ToString() : "";
+                        HIDAccount.Value = ds.Tables[0].Rows[0]["cAccountID"] != DBNull.Value ? ds.Tables[0].Rows[0]["cAccountID"].ToString() : "";
                         //TxtDescription.Text = ds.Tables[0].Rows[0]["cDescription"] != DBNull.Value ? ds.Tables[0].Rows[0]["cDescription"].ToString() : "";
 
                     }
@@ -48,6 +50,29 @@ public partial class TranAddLessPurchase : System.Web.UI.Page
 
         }
     }
+
+    [System.Web.Script.Services.ScriptMethod()]
+    [System.Web.Services.WebMethod]
+    public static List<string> SearchAccount(string prefixText, int count)
+    {
+        DataSet ds = new DataSet();
+        SqlInvoice cn = new SqlInvoice();
+        List<string> zone = new List<string>();
+        string cnm = "";
+        ds = cn.RunSql("sp_Searchforautocomplete 'Acc','" + prefixText + "','" + HttpContext.Current.Request.Cookies["CompID"].Value + "'", "select");
+        if (ds.Tables[0].Rows.Count > 0)
+        {
+            for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+            {
+                cnm = AjaxControlToolkit.AutoCompleteExtender.CreateAutoCompleteItem(ds.Tables[0].Rows[i]["cName"].ToString(), ds.Tables[0].Rows[i]["nid"].ToString());
+                zone.Add(cnm);
+            }
+        }
+
+        return zone;
+    }
+
+
     protected void ImgBtnAdd_Click(object sender, ImageClickEventArgs e)
     {
         try
@@ -59,7 +84,7 @@ public partial class TranAddLessPurchase : System.Web.UI.Page
             {
                 if (Request.QueryString["E"] != null)
                 {
-                    ds = cn.RunSql("sp_addMasterAddLess 'U','" + Request.QueryString["ID"].ToString() + "','" + TxtDescription.Text + "','" + TxtAccountName.Text + "','" + DdlAddLess.SelectedValue + "','" + TxtPer.Text + "','" + TxtRs.Text + "','" + DDLCountBelow.SelectedValue + "','3','" + DDLType.SelectedValue + "'", "Add");
+                    ds = cn.RunSql("sp_addMasterAddLess 'U','" + Request.QueryString["ID"].ToString() + "','" + TxtDescription.Text + "','" + HIDAccount.Value + "','" + DdlAddLess.SelectedValue + "','" + TxtPer.Text + "','" + TxtRs.Text + "','" + DDLCountBelow.SelectedValue + "','3','" + DDLType.SelectedValue + "'", "Add");
                     Response.Redirect("TranAddLessPurchase.aspx");
                 }
                 //else if (Request.QueryString["D"] != null)
@@ -69,7 +94,7 @@ public partial class TranAddLessPurchase : System.Web.UI.Page
             }
             else
             {
-                ds = cn.RunSql("sp_addMasterAddLess 'I','','" + TxtDescription.Text + "','" + TxtAccountName.Text + "','" + DdlAddLess.SelectedValue + "','" + TxtPer.Text + "','" + TxtRs.Text + "','" + DDLCountBelow.SelectedValue + "','3','" + DDLType.SelectedValue + "'", "Add");
+                ds = cn.RunSql("sp_addMasterAddLess 'I','','" + TxtDescription.Text + "','" + HIDAccount.Value + "','" + DdlAddLess.SelectedValue + "','" + TxtPer.Text + "','" + TxtRs.Text + "','" + DDLCountBelow.SelectedValue + "','3','" + DDLType.SelectedValue + "'", "Add");
                 BindGrid();
                 ClearChild();
             }

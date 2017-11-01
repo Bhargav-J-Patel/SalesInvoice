@@ -32,6 +32,11 @@
             hd.value = e.get_value();
 
         }
+        function select_RoundOff(sender, e) {
+            var hd = $get("<%=HIDRoundoffAccount.ClientID %>");
+            hd.value = e.get_value();
+
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -101,7 +106,6 @@
                             <asp:HiddenField ID="HIDTxtIGSTAccount" runat="server" />
                         </td>
                     </tr>
-
                     <tr>
                         <td style="width: 150px;"><strong class="contentLabel">Cash Account</strong></td>
                         <td style="width: 350px;">
@@ -113,6 +117,16 @@
                             CompletionListItemCssClass="AutoComplete_listItem" CompletionListHighlightedItemCssClass="AutoComplete_highlightedListItem">
                         </cc1:AutoCompleteExtender>
                         <asp:HiddenField ID="HIDTxtCashAccount" runat="server" />
+                        <td ><strong class="contentLabel">Round Off Account</strong></td>
+                        <td >
+                            <asp:TextBox runat="server" ID="TxtRoundOffAccount" CssClass="bsinputgreen" Width="300px" Style="background: #E6f2f2; border: 1px solid DarkGray; border-radius: 3px; height: 22px;" /></td>
+                        <cc1:AutoCompleteExtender ServiceMethod="SearchGSTAccount" MinimumPrefixLength="1"
+                            OnClientItemSelected="select_RoundOff" CompletionInterval="100" EnableCaching="false"
+                            CompletionSetCount="10" TargetControlID="TxtRoundOffAccount" ID="AutoCompleteExtender5"
+                            runat="server" FirstRowSelected="true" CompletionListCssClass="AutoComplete_completionListElement"
+                            CompletionListItemCssClass="AutoComplete_listItem" CompletionListHighlightedItemCssClass="AutoComplete_highlightedListItem">
+                        </cc1:AutoCompleteExtender>
+                        <asp:HiddenField ID="HIDRoundoffAccount" runat="server" />
                     </tr>
                 </table>
             </div>

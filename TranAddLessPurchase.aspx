@@ -15,6 +15,12 @@
             }
             document.forms[0].appendChild(confirm_value);
         }
+
+        function select_Acc(sender, e) {
+            var hd = $get("<%=HIDAccount.ClientID %>");
+            hd.value = e.get_value();
+
+        }
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -43,6 +49,9 @@
                             </td>
                             <td style="width: 150px;">
                                 <strong class="contentLabel">Per</strong>
+                            </td>
+                            <td style="width: 150px;">
+                                <strong class="contentLabel">Account</strong>
                             </td>
                             <td style="width: 150px;display:none">
                                 <strong class="contentLabel">Rs</strong>
@@ -79,6 +88,17 @@
                                 <asp:TextBox runat="server" ID="TxtPer" CssClass="bsinputred" TabIndex="1"
                                     Style="width: 120px;" />
 
+                            </td>
+                            <td>
+                                <asp:TextBox runat="server" ID="TxtAccount"  CssClass="bsinputgreen" Width="300px"
+                                    Style="background: #E6f2f2; border: 1px solid DarkGray; border-radius: 3px; height: 22px;" />
+                            
+                            <cc1:AutoCompleteExtender ServiceMethod="SearchAccount" MinimumPrefixLength="1" OnClientItemSelected="select_Acc"
+                                CompletionInterval="100" EnableCaching="false" CompletionSetCount="10" TargetControlID="TxtAccount"
+                                ID="AutoCompleteExtender1" runat="server" FirstRowSelected="true" CompletionListCssClass="AutoComplete_completionListElement"
+                                CompletionListItemCssClass="AutoComplete_listItem" CompletionListHighlightedItemCssClass="AutoComplete_highlightedListItem">
+                            </cc1:AutoCompleteExtender>
+                            <asp:HiddenField ID="HIDAccount" runat="server" />
                             </td>
                             <td style="display:none">
                                 <asp:TextBox runat="server" ID="TxtRs" CssClass="bsinputred" TabIndex="1"
@@ -120,6 +140,7 @@
                                         <asp:BoundField HeaderText="Description" DataField="cDescription" ItemStyle-Width="290px" />
                                         <asp:BoundField HeaderText="Add/Less" DataField="cAddless" />
                                         <asp:BoundField HeaderText="Per" DataField="nPer" />
+                                        <asp:BoundField HeaderText="Account" DataField="cName" />
                                         <%--<asp:BoundField HeaderText="Rs" DataField="nRs" />
                                         <asp:BoundField HeaderText="Type" DataField="cAccountType" />
                                         <asp:BoundField HeaderText="Count on Below Total" DataField="nCountOnTotal" ItemStyle-Width="150px" />--%>

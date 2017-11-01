@@ -472,6 +472,116 @@ public class ListPage : System.Web.Services.WebService
         JavaScriptSerializer js = new JavaScriptSerializer();
         Context.Response.Write(js.Serialize(result));
     }
+    [WebMethod]
+    public void ListPurchaseInclude(int iDisplayLength, int iDisplayStart, int iSortCol_0, string sSortDir_0, string sSearch)
+    {
+        int displayLength = iDisplayLength;
+        int displayStart = iDisplayStart;
+        int sortCol = iSortCol_0;
+        string sortDir = sSortDir_0;
+        string search = sSearch;
+
+
+        ListAll cls2 = new ListAll();
+        List<ListAll> myList = new List<ListAll>();
+
+
+
+        int filteredCount = 0;
+        DataSet DS = new DataSet();
+        SqlInvoice CN = new SqlInvoice();
+
+        DS = CN.RunSql("SP_ListTranPurchaseInclude '" + displayLength + "','" + displayStart + "','" + sortCol + "','" + sortDir + "','" + search + "','" + HttpContext.Current.Request.Cookies["AccYear"].Value + "'", "List");
+
+
+        if (DS.Tables.Count > 0)
+        {
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    ListAll cls = new ListAll();
+
+                    filteredCount = Convert.ToInt32(DS.Tables[0].Rows[i]["TotalCount"] != DBNull.Value ? DS.Tables[0].Rows[i]["TotalCount"].ToString() : "0");
+                    cls.nSrNo = DS.Tables[0].Rows[i]["nSrNo"] != DBNull.Value ? DS.Tables[0].Rows[i]["nSrNo"].ToString() : "";
+                    cls.dDate = DS.Tables[0].Rows[i]["dDate"] != DBNull.Value ? DS.Tables[0].Rows[i]["dDate"].ToString() : "";
+                    cls.cName = DS.Tables[0].Rows[i]["cName"] != DBNull.Value ? DS.Tables[0].Rows[i]["cName"].ToString() : "";
+                    cls.nGrossRs = DS.Tables[0].Rows[i]["nGrossRs"] != DBNull.Value ? DS.Tables[0].Rows[i]["nGrossRs"].ToString() : "";
+                    cls.nNetRs = DS.Tables[0].Rows[i]["nNetRs"] != DBNull.Value ? DS.Tables[0].Rows[i]["nNetRs"].ToString() : "";
+                    cls.cedit = DS.Tables[0].Rows[i]["cedit"] != DBNull.Value ? DS.Tables[0].Rows[i]["cedit"].ToString() : "";
+                    cls.cdelete = DS.Tables[0].Rows[i]["cdelete"] != DBNull.Value ? DS.Tables[0].Rows[i]["cdelete"].ToString() : "";
+                    cls.cprint = DS.Tables[0].Rows[i]["cprint"] != DBNull.Value ? DS.Tables[0].Rows[i]["cprint"].ToString() : "";
+
+                    myList.Add(cls);
+                }
+            }
+        }
+
+        var result = new
+        {
+            iTotalRecords = GetTotalCount("PurchaseInclude", ""),
+            //iTotalRecords = 5000,
+            iTotalDisplayRecords = filteredCount,
+            aaData = myList
+        };
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Context.Response.Write(js.Serialize(result));
+    }
+    [WebMethod]
+    public void ListPurchaseReturnInclude(int iDisplayLength, int iDisplayStart, int iSortCol_0, string sSortDir_0, string sSearch)
+    {
+        int displayLength = iDisplayLength;
+        int displayStart = iDisplayStart;
+        int sortCol = iSortCol_0;
+        string sortDir = sSortDir_0;
+        string search = sSearch;
+
+
+        ListAll cls2 = new ListAll();
+        List<ListAll> myList = new List<ListAll>();
+
+
+
+        int filteredCount = 0;
+        DataSet DS = new DataSet();
+        SqlInvoice CN = new SqlInvoice();
+
+        DS = CN.RunSql("SP_ListTranPurchaseReturnInclude '" + displayLength + "','" + displayStart + "','" + sortCol + "','" + sortDir + "','" + search + "','" + HttpContext.Current.Request.Cookies["AccYear"].Value + "'", "List");
+
+
+        if (DS.Tables.Count > 0)
+        {
+            if (DS.Tables[0].Rows.Count > 0)
+            {
+                for (int i = 0; i < DS.Tables[0].Rows.Count; i++)
+                {
+                    ListAll cls = new ListAll();
+
+                    filteredCount = Convert.ToInt32(DS.Tables[0].Rows[i]["TotalCount"] != DBNull.Value ? DS.Tables[0].Rows[i]["TotalCount"].ToString() : "0");
+                    cls.nSrNo = DS.Tables[0].Rows[i]["nSrNo"] != DBNull.Value ? DS.Tables[0].Rows[i]["nSrNo"].ToString() : "";
+                    cls.dDate = DS.Tables[0].Rows[i]["dDate"] != DBNull.Value ? DS.Tables[0].Rows[i]["dDate"].ToString() : "";
+                    cls.cName = DS.Tables[0].Rows[i]["cName"] != DBNull.Value ? DS.Tables[0].Rows[i]["cName"].ToString() : "";
+                    cls.nGrossRs = DS.Tables[0].Rows[i]["nGrossRs"] != DBNull.Value ? DS.Tables[0].Rows[i]["nGrossRs"].ToString() : "";
+                    cls.nNetRs = DS.Tables[0].Rows[i]["nNetRs"] != DBNull.Value ? DS.Tables[0].Rows[i]["nNetRs"].ToString() : "";
+                    cls.cedit = DS.Tables[0].Rows[i]["cedit"] != DBNull.Value ? DS.Tables[0].Rows[i]["cedit"].ToString() : "";
+                    cls.cdelete = DS.Tables[0].Rows[i]["cdelete"] != DBNull.Value ? DS.Tables[0].Rows[i]["cdelete"].ToString() : "";
+                    cls.cprint = DS.Tables[0].Rows[i]["cprint"] != DBNull.Value ? DS.Tables[0].Rows[i]["cprint"].ToString() : "";
+
+                    myList.Add(cls);
+                }
+            }
+        }
+
+        var result = new
+        {
+            iTotalRecords = GetTotalCount("PurchaseReturnInclude", ""),
+            //iTotalRecords = 5000,
+            iTotalDisplayRecords = filteredCount,
+            aaData = myList
+        };
+        JavaScriptSerializer js = new JavaScriptSerializer();
+        Context.Response.Write(js.Serialize(result));
+    }
 
     [WebMethod]
     public void ListPurchaseReturn(int iDisplayLength, int iDisplayStart, int iSortCol_0, string sSortDir_0, string sSearch)

@@ -97,7 +97,7 @@
                     <td></td>
                 </tr>
                 <tr runat="server" id="trCusEnv" visible="false">
-                    <td style="text-align: center;">Customer Name
+                    <td style="text-align: center;">Account Name
                     </td>
                     <td style="text-align: left;">
                         <asp:TextBox runat="server" ID="TxtCustomer" CssClass="bsinputgreen" TabIndex="1"
@@ -112,6 +112,9 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TxtCustomer"
                             ErrorMessage="&lt;img src='assets/img/writing-icon.jpg' title='DELETE' alt='View' border='0'/&gt;"
                             ValidationGroup="Main" Display="Dynamic"></asp:RequiredFieldValidator>
+                        <asp:DropDownList ID="DDL_Account" DataTextField="cName" DataValueField="NID" TabIndex="6" runat="server" CssClass="bsinputblue" Width="120px">
+                        </asp:DropDownList>
+
                     </td>
                     <td></td>
                 </tr>

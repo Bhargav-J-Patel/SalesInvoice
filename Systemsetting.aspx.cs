@@ -42,6 +42,11 @@ public partial class Systemsetting : System.Web.UI.Page
                 HIDTxtCashAccount.Value = ds.Tables[4].Rows[0]["cValue"] != DBNull.Value ? ds.Tables[4].Rows[0]["cValue"].ToString() : "";
                 TxtCashAccount.Text = ds.Tables[4].Rows[0]["cName"] != DBNull.Value ? ds.Tables[4].Rows[0]["cName"].ToString() : "";
             }
+            if (ds.Tables[5].Rows.Count > 0)
+            {
+                HIDRoundoffAccount.Value = ds.Tables[5].Rows[0]["cValue"] != DBNull.Value ? ds.Tables[5].Rows[0]["cValue"].ToString() : "";
+                TxtRoundOffAccount.Text = ds.Tables[5].Rows[0]["cName"] != DBNull.Value ? ds.Tables[5].Rows[0]["cName"].ToString() : "";
+            }
 
         }
     }
@@ -49,7 +54,7 @@ public partial class Systemsetting : System.Web.UI.Page
     {
         try
         {
-            ds = cn.RunSql("sp_addsystemsetting '" + Txtstatecode.Text + "','" + HIDTxtCGSTAccount.Value + "','" + HIDTxtSGSTAccount.Value + "','" + HIDTxtIGSTAccount.Value + "','" + HIDTxtCashAccount.Value + "','" + Request.Cookies["CompID"].Value + "'", "select");
+            ds = cn.RunSql("sp_addsystemsetting '" + Txtstatecode.Text + "','" + HIDTxtCGSTAccount.Value + "','" + HIDTxtSGSTAccount.Value + "','" + HIDTxtIGSTAccount.Value + "','" + HIDTxtCashAccount.Value + "','"+ HIDRoundoffAccount.Value +"','" + Request.Cookies["CompID"].Value + "'", "select");
             ScriptManager.RegisterStartupScript(this.Page, Page.GetType(), "text", "ScuessMsg('U')", true);
 
         }

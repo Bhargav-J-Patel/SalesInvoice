@@ -311,7 +311,6 @@ public partial class TranSalesRetailInvoiceReturn : System.Web.UI.Page
             }
             else
             {
-
                 ds = cn.RunSql("sp_addcsalesretailtrans 'PU','2','" + TxtSRNo.Text + "','" + TxtDate.Text + "','" + HifCustomer.Value + "','" + HifItem.Value + "','" + TxtQty.Text + "','" + LblTotal.Text + "','" + LblGrossRs.Text + "','" + TxtVatPer.Text + "','" + TxtVatRs.Text + "','" + TxtExtraPer.Text + "','" + TxtExtraRs.Text + "','" + TxtDisPer.Text + "','" + TxtDisRs.Text + "','" + LblNetRs.Text + "','" + LblAmt.Text + "','" + Request.QueryString["id"] + "','','" + Request.Cookies["CompID"].Value + "','" + Request.Cookies["BranchID"].Value + "','" + Request.Cookies["AccYear"].Value + "','" + TxtTransporterID.Text + "','" + TxtTransporterName.Text + "','" + TxtVehicleNo.Text + "','" + TxtMRP.Text + "','" + txtDiscPerChild.Text + "','" + TxtDisRsChild.Text + "','" + TxtSaleRate.Text + "','" + DDLCashCredit.SelectedValue + "','" + str + "','" + DDLSalesAccount.SelectedValue + "'", "puci");
                 //Response.Redirect("TranSalesRetailInvoice.aspx");
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "text", "ScuessMsg('PU','" + Request.QueryString["ID"].ToString() + "')", true);

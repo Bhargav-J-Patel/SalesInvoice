@@ -52,17 +52,17 @@
         function ScuessMsg(type, ID) {
             if (type == 'PU' && ID != '') {
                 alertify.alert("You have Sucessfully Add Purchase Invoice", function () {
-                    location.href = 'TranPurchaseInvoiceInclude.aspx';
+                    location.href = 'TranPurchaseInvoiceReturnInclude.aspx';
                 });
             }
             else if (type == 'D' && ID == 'D') {
                 alertify.alert("You have Sucessfully Delete Purchase Invoice! !", function () {
-                    location.href = 'TranPurchaseInvoiceInclude.aspx';
+                    location.href = 'TranPurchaseInvoiceReturnInclude.aspx';
                 });
             }
             else {
                 alertify.alert("You have Sucessfully Update Purchase Invoice! !", function () {
-                    location.href = 'TranPurchaseInvoiceInclude.aspx';
+                    location.href = 'TranPurchaseInvoiceReturnInclude.aspx';
                 });
             }
 
@@ -428,7 +428,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Amt">
                                             <ItemTemplate>
-                                                <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' Enabled="false"></asp:TextBox>
+                                                <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' AutoPostBack="true" OnTextChanged="TxtAddLessRs_TextChanged"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>

@@ -445,4 +445,38 @@ public partial class TranPurchaseInvoice : System.Web.UI.Page
 
         }
     }
+    protected void TxtAddLessRs_TextChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            TextBox Txt = (TextBox)sender;
+            GridViewRow row = (GridViewRow)(Txt.NamingContainer);
+
+            ((TextBox)GvAddLess.Rows[row.RowIndex].FindControl("TxtAddLessPer")).Text = "0";
+            Double GTotal = 0;
+            for (int i = 0; i < GvAddLess.Rows.Count; i++)
+            {
+                String total = (GvAddLess.Rows[i].FindControl("TxtAddLessRs") as TextBox).Text;
+                if (total == "")
+                {
+                    total = "0";
+                }
+                if ((GvAddLess.Rows[i].FindControl("LblAddLess") as Label).Text == "+")
+                {
+                    GTotal = GTotal + Convert.ToDouble(total);
+                }
+                if ((GvAddLess.Rows[i].FindControl("LblAddLess") as Label).Text == "-")
+                {
+                    GTotal = GTotal - Convert.ToDouble(total);
+                }
+            }
+            LblNetRs.Text = Convert.ToString(Convert.ToDouble(LblAmt.Text) + Convert.ToDouble(GTotal));
+            LblNetRs.Text = Convert.ToDecimal(LblNetRs.Text).ToString("0.00");
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
 }

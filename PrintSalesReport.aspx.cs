@@ -11,10 +11,10 @@ public partial class PrintSalesReport : System.Web.UI.Page
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
-
         {
             try
             {
+
                 if (Request.QueryString["Rpt"] == "1")
                 {
                     ds = cn.RunSql("[sp_PrintPurchaseDateWise] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "data");
@@ -48,6 +48,23 @@ public partial class PrintSalesReport : System.Web.UI.Page
                 {
                     ds = cn.RunSql("[Sp_PrintGSTSummary] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["Type"] + "' ", "data");
                 }
+                else if (Request.QueryString["Rpt"] == "DB")
+                {
+                    ds = cn.RunSql("[Sp_PrintDayBook] '" + Request.QueryString["Date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "Data");
+                }
+                else if (Request.QueryString["Rpt"] == "CashB")
+                {
+                    ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
+                }
+                else if (Request.QueryString["Rpt"] == "BankB")
+                {
+                    ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
+                }
+                else if (Request.QueryString["Rpt"] == "StatB")
+                {
+                    ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
+                }
+
                 if (ds.Tables.Count > 0)
                 {
                     Lbl.Text = ds.Tables[0].Rows[0][0].ToString();
@@ -64,10 +81,8 @@ public partial class PrintSalesReport : System.Web.UI.Page
                 Lbl.Style.Add("color", "red");
             }
         }
-
     }
-
-
+    
 
     public void ImageButton1_Click(object sender, EventArgs e)
     {
@@ -104,6 +119,22 @@ public partial class PrintSalesReport : System.Web.UI.Page
         else if (Request.QueryString["Rpt"] == "8")
         {
             ds = cn.RunSql("[Sp_PrintGSTSummary] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["Type"] + "' ", "data");
+        }
+        else if (Request.QueryString["Rpt"] == "DB")
+        {
+            ds = cn.RunSql("[Sp_PrintDayBook] '" + Request.QueryString["Date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "Data");
+        }
+        else if (Request.QueryString["Rpt"] == "CashB")
+        {
+            ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
+        }
+        else if (Request.QueryString["Rpt"] == "BankB")
+        {
+            ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
+        }
+        else if (Request.QueryString["Rpt"] == "StatB")
+        {
+            ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
         }
 
         if (ds.Tables.Count > 0)

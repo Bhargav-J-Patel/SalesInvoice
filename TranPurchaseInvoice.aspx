@@ -428,7 +428,7 @@
                                         </asp:TemplateField>
                                         <asp:TemplateField HeaderText="Amt">
                                             <ItemTemplate>
-                                                <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' Enabled="false"></asp:TextBox>
+                                                <asp:TextBox ID="TxtAddLessRs" runat="server" CssClass="bsinputred" Text='<%# Bind("nRs") %>' AutoPostBack="true" OnTextChanged="TxtAddLessRs_TextChanged"></asp:TextBox>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>

@@ -23,6 +23,7 @@ public partial class OptionForm : System.Web.UI.Page
                 DDL1Branch.DataSource = ds;
                 DDL1Branch.DataBind();
 
+
                 DateTime now = DateTime.Now;
                 var startDate = new DateTime(now.Year, now.Month, 1);
                 var endDate = startDate.AddMonths(1).AddDays(-1);
@@ -91,6 +92,39 @@ public partial class OptionForm : System.Web.UI.Page
                     LblHead.Text = "Envelope";
                     trCusEnv.Visible = true;
                 }
+                else if (Request.QueryString["Rpt"] == "DB")
+                {
+                    LblHead.Text = "Day book";
+                    trSingleDate.Visible = true;
+                }
+                else if (Request.QueryString["Rpt"] == "CashB")
+                {
+                    LblHead.Text = "Cash book";
+                    trCusEnv.Visible = true;
+                    trDate.Visible = true;
+                    ds = cn.RunSql("[Sp_SearchAccType] '2' ", "select");
+                    DDL_Account.DataSource = ds;
+                    DDL_Account.DataBind();
+                    TxtCustomer.Visible = false;
+                }
+                else if (Request.QueryString["Rpt"] == "BankB")
+                {
+                    LblHead.Text = "Bank book";
+                    trDate.Visible = true;
+                    trCusEnv.Visible = true;
+                    ds = cn.RunSql("[Sp_SearchAccType] '1' ", "select");
+                    DDL_Account.DataSource = ds;
+                    DDL_Account.DataBind();
+                    TxtCustomer.Visible = false;
+                }
+                else if (Request.QueryString["Rpt"] == "StatB")
+                {
+                    LblHead.Text = "Statement";
+                    trDate.Visible = true;
+                    trCusEnv.Visible = true;
+                    DDL_Account.Visible = false;
+                }
+
             }
             catch (Exception ex)
             {
@@ -139,6 +173,22 @@ public partial class OptionForm : System.Web.UI.Page
             {
                 Response.Redirect("PrintSalesBill.aspx?Rpt=Env&Cusid=" + HifCustomer.Value + " ");
             }
+            else if (Request.QueryString["Rpt"] == "DB")
+            {
+                Response.Redirect("PrintSalesBill.aspx?Rpt=DB&Date=" + TxtDate.Text + "");
+            }
+            else if (Request.QueryString["Rpt"] == "CashB")
+            {
+                Response.Redirect("PrintSalesBill.aspx?Rpt=CashB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "BankB")
+            {
+                Response.Redirect("PrintSalesBill.aspx?Rpt=BankB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "StatB")
+            {
+                Response.Redirect("PrintSalesBill.aspx?Rpt=StatB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + HifCustomer.Value + " ");
+            }
         }
         catch (Exception ex)
         {
@@ -174,6 +224,7 @@ public partial class OptionForm : System.Web.UI.Page
         List<string> zone = new List<string>();
         string cnm = "";
         ds = cn.RunSql("sp_Searchforautocomplete 'Customer','" + prefixText + "','" + HttpContext.Current.Request.Cookies["CompID"].Value + "',''", "select");
+
         if (ds.Tables[0].Rows.Count > 0)
         {
             for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
