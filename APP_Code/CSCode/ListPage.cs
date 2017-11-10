@@ -32,7 +32,7 @@ public class ListPage : System.Web.Services.WebService
         public string dDate;
         public string nSrNo;
         public string cprint, GroupCode, GroupName;
-        public string nVouchNo, dVochDate, cCashBank;
+        public string nVouchNo, dVochDate, cCashBank, cprintm;
 
         public string BranchID = HttpContext.Current.Request.Cookies["BranchID"].Value.ToString();
         public string CompID = HttpContext.Current.Request.Cookies["CompID"].Value.ToString();
@@ -236,7 +236,7 @@ public class ListPage : System.Web.Services.WebService
                     cls.cedit = DS.Tables[0].Rows[i]["cedit"] != DBNull.Value ? DS.Tables[0].Rows[i]["cedit"].ToString() : "";
                     cls.cdelete = DS.Tables[0].Rows[i]["cdelete"] != DBNull.Value ? DS.Tables[0].Rows[i]["cdelete"].ToString() : "";
                     cls.cprint = DS.Tables[0].Rows[i]["cprint"] != DBNull.Value ? DS.Tables[0].Rows[i]["cprint"].ToString() : "";
-
+                    cls.cprintm = DS.Tables[0].Rows[i]["cprintm"] != DBNull.Value ? DS.Tables[0].Rows[i]["cprintm"].ToString() : "";
                     myList.Add(cls);
                 }
             }

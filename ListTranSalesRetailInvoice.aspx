@@ -25,12 +25,13 @@
                     { 'data': 'nNetRs' },
                     { 'data': 'cedit' },
                     { 'data': 'cdelete' },
-                    { 'data': 'cprint' }
+                    { 'data': 'cprint' },
+                    { 'data': 'cprintm' }
                 ],
                 "aoColumnDefs": [
                         {
                             'bSortable': false,
-                            'aTargets': [5, 6, 7]
+                            'aTargets': [5, 6, 7,8]
                         } //disables sorting for column one
                 ],
 
@@ -86,6 +87,8 @@
                                     <th style="width: 50px; padding: 5px 0px 5px 5px;">&nbsp;
                                     </th>
                                     <th style="width: 50px; padding: 5px 0px 5px 5px;">&nbsp;
+                                    </th>
+                                     <th style="width: 50px; padding: 5px 0px 5px 5px;">&nbsp;
                                     </th>
                                 </tr>
                             </thead>

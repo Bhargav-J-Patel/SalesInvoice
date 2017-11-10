@@ -58,13 +58,14 @@
             </div>
         </nav>
 
-            <div class="site-menubar navbar-fixed-top test test1" style="top: 0px; background-color: rgb(50, 113, 150);height:75px">
+            <div class="site-menubar navbar-fixed-top test test1" style="top: 0px; background-color: rgb(50, 113, 150); height: 75px">
                 <div class="site-menubar-body">
                     <div>
                         <div>
                             <ul class="site-menu">
                                 <li class="site-menu-category" style="display: none">General</li>
-                                <li><span style="font-size:18px;color:White;font-weight:bold"><asp:Label runat="server" ID="LblCompanyNm"></asp:Label></span></li>
+                                <li><span style="font-size: 18px; color: White; font-weight: bold">
+                                    <asp:Label runat="server" ID="LblCompanyNm"></asp:Label></span></li>
                                 <li class="dropdown site-menu-item has-sub"><a class="dropdown-toggle" href="javascript:void(0)"
                                     data-dropdown-toggle="false"><i class="site-menu-icon md-view-compact" aria-hidden="true"></i><span class="site-menu-title">Masters</span> <span class="site-menu-arrow"></span>
                                 </a>
@@ -73,8 +74,8 @@
                                             <div>
                                                 <div>
                                                     <ul class="site-menu-sub site-menu-normal-list">
-                                                    <li class="site-menu-item"><a class="animsition-link" href="MasterGroup.aspx"><span class="site-menu-title">Group Master</span> </a></li>
-                                                    <li class="site-menu-item"><a class="animsition-link" href="MasterAcccount.aspx"><span class="site-menu-title">Account Master</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="MasterGroup.aspx"><span class="site-menu-title">Group Master</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="MasterAcccount.aspx"><span class="site-menu-title">Account Master</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="MasterItemGroup.aspx"><span class="site-menu-title">Item Group</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="MasterItem.aspx"><span class="site-menu-title">Item</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="Mastercustomer.aspx"><span class="site-menu-title">Customer</span> </a></li>
@@ -126,6 +127,12 @@
                                                         <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=CashB"><span class="site-menu-title">Cash Book</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=BankB"><span class="site-menu-title">Bank Book</span> </a></li>
                                                         <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=StatB"><span class="site-menu-title">Statement</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=Rec"><span class="site-menu-title">Receivable</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=Pay"><span class="site-menu-title">Payable</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=Trail"><span class="site-menu-title">Trail Balance </span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=TA"><span class="site-menu-title">Trading Account</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=PL"><span class="site-menu-title">Profit & Loss</span> </a></li>
+                                                        <li class="site-menu-item"><a class="animsition-link" href="OptionForm.aspx?Rpt=Bal"><span class="site-menu-title">Balance Shit</span> </a></li>
                                                     </ul>
                                                 </div>
                                             </div>
@@ -186,8 +193,8 @@
                     </div>
                 </div>
             </div>
-            <div style="height:30px;"></div>
-            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server" >
+            <div style="height: 30px;"></div>
+            <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
             </asp:ContentPlaceHolder>
         </div>
         <!-- Core  -->

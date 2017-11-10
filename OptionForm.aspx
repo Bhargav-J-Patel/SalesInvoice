@@ -118,6 +118,15 @@
                     </td>
                     <td></td>
                 </tr>
+                <tr runat="server" id="trcity" visible="false" >
+                    <td colspan="4">
+                        <asp:Panel if="" runat="server" Style="border-color: #CCCCCC; border-width: 1px; border-style: Solid; height: 330px; width: 90%; overflow-y: scroll; overflow-x: hidden; overflow-y: auto; margin: 5px 5px 5px 10px;">
+                            <asp:CheckBoxList ID="ChkCity" runat="server" RepeatColumns="8" DataValueField="City" DataTextField="City">
+                            </asp:CheckBoxList>
+                        </asp:Panel>
+                    </td>
+
+                </tr>
                 <tr>
                     <td colspan="2" style="padding: 10px 0px 0px 85px;">
                         <asp:Button runat="server" ID="btnsave" class="btn btn-success SaveCancel btnSave"

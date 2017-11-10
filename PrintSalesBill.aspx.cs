@@ -25,7 +25,14 @@ public partial class PrintSalesBill : System.Web.UI.Page
                 }
                 else
                 {
-                    ds = cn.RunSql("sp_billprint '" + Request.QueryString["ID"] + "'", "stockissue");
+                    if (Request.QueryString["Rpt"] == "1")
+                    {
+                        ds = cn.RunSql("sp_billprint '" + Request.QueryString["ID"] + "'", "stockissue");
+                    }
+                    else
+                    {
+                        ds = cn.RunSql("sp_billprint '" + Request.QueryString["ID"] + "'", "stockissue");
+                    }
                     LblReport.Text = ds.Tables[0].Rows[0][0] != DBNull.Value ? ds.Tables[0].Rows[0][0].ToString() : "";
                 }
             }

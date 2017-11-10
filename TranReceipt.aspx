@@ -50,17 +50,14 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <div class="panel">
         <div class="panel-heading">
-            <h2 class="panel-title">
-                Receipt
+            <h2 class="panel-title">Receipt
                 <button type="button" name="btnList" id="btnList" runat="server" class="btn btn-info AddList"
                     onclick="location.href = 'ListTranReceipt.aspx'" tabindex="16" style="float: right;">
                     <i class="icon wb-list"></i><span class="spanList"></span>
                 </button>
                 <button type="button" name="btnAdd" id="btnAdd" runat="server" class="btn btn-success AddList"
-                    onclick="location.href = 'TranReceipt.aspx'" tabindex="17" style="float: right;
-                    margin-right: 4px;">
-                    <i class="icon wb-plus" style="margin-left: 0px; padding-left: 0px;"></i><span class="spanNew">
-                    </span>
+                    onclick="location.href = 'TranReceipt.aspx'" tabindex="17" style="float: right; margin-right: 4px;">
+                    <i class="icon wb-plus" style="margin-left: 0px; padding-left: 0px;"></i><span class="spanNew"></span>
                 </button>
             </h2>
             <div>
@@ -127,10 +124,10 @@
                             <td style="width: 110px">
                                 <strong class="contentLabel">Against Bill</strong>
                             </td>
-                            <td style="width: 110px;display:none">
+                            <td style="width: 110px; display: none">
                                 <strong class="contentLabel">Kasar</strong>
                             </td>
-                            <td style="width: 110px;display:none">
+                            <td style="width: 110px; display: none">
                                 <strong class="contentLabel">TDS</strong>
                             </td>
                             <td style="width: 110px">
@@ -142,8 +139,7 @@
                             <td style="width: 200px">
                                 <strong class="contentLabel">Remarks</strong>
                             </td>
-                            <td>
-                            </td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td>
@@ -169,23 +165,23 @@
                                     <asp:ListItem>No</asp:ListItem>
                                 </asp:DropDownList>
                             </td>
-                            <td style="display:none">
+                            <td style="display: none">
                                 <asp:TextBox runat="server" ID="TxtKasar" CssClass="bsinputred" TabIndex="7" />
                             </td>
-                            <td style="display:none">
+                            <td style="display: none">
                                 <asp:TextBox runat="server" ID="TxtTDS" CssClass="bsinputred" TabIndex="8" />
                             </td>
                             <td>
                                 <asp:TextBox runat="server" ID="TxtRefNO" CssClass="bsinputblue" TabIndex="9" />
                             </td>
-                             <td>
-                                
+                            <td>
+
                                 <asp:TextBox runat="server" ID="TxtRefdate" CssClass="bsdate_picker" TabIndex="10" onkeydown="return validateKeyPress(event,validDt)"
-                            OnChange="dateval(this);" MaxLength="10" data-inputmask="'mask': '99/99/9999'"
-                            Width="120px" />
-                        <cc1:CalendarExtender runat="server" ID="CalendarExtender1" TargetControlID="TxtRefdate"
-                            BehaviorID="bCalendarExtenderdDate" CssClass="cal_Theme1" Format="dd/MM/yyyy"
-                            PopupButtonID="ImageButton1"></cc1:CalendarExtender>
+                                    OnChange="dateval(this);" MaxLength="10" data-inputmask="'mask': '99/99/9999'"
+                                    Width="120px" />
+                                <cc1:CalendarExtender runat="server" ID="CalendarExtender1" TargetControlID="TxtRefdate"
+                                    BehaviorID="bCalendarExtenderdDate" CssClass="cal_Theme1" Format="dd/MM/yyyy"
+                                    PopupButtonID="ImageButton1"></cc1:CalendarExtender>
                             </td>
                             <td>
                                 <asp:TextBox runat="server" ID="TxtRemarks" CssClass="bsinputblue" TabIndex="11" />
@@ -199,7 +195,7 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
 
-             <div style="height: 400px; overflow: auto; overflow-x: hidden;">
+            <div style="height: 400px; overflow: auto; overflow-x: hidden;">
                 <asp:GridView ID="GVItem" runat="server" AutoGenerateColumns="false" class="table1 table-responsive table-bordered table-hover">
                     <Columns>
                         <asp:BoundField DataField="NID" HeaderText="" ItemStyle-Width="1px" ItemStyle-ForeColor="Transparent"
@@ -209,12 +205,12 @@
                         <asp:BoundField HeaderText="Acc Name" DataField="cName" />
                         <asp:BoundField HeaderText="Amount" DataField="nAmount" />
                         <asp:BoundField HeaderText="Against Bill" DataField="cAgainstBill" />
-                        <asp:BoundField HeaderText="Kasar" DataField="nKasar" Visible="false"/>
-                        <asp:BoundField HeaderText="TDS" DataField="nTDS"  Visible="false"/>
+                        <asp:BoundField HeaderText="Kasar" DataField="nKasar" Visible="false" />
+                        <asp:BoundField HeaderText="TDS" DataField="nTDS" Visible="false" />
                         <asp:BoundField HeaderText="Ref No" DataField="nRefNo" />
                         <asp:BoundField HeaderText="Ref Date" DataField="dRefDate" />
-                        <asp:BoundField HeaderText="Remark" DataField="cRemark"/>
-                       
+                        <asp:BoundField HeaderText="Remark" DataField="cRemark" />
+
                         <asp:TemplateField HeaderText="Edit" ItemStyle-Width="5%">
                             <ItemTemplate>
                                 <a href="TranReceipt.aspx?id=<%# DataBinder.Eval(Container.DataItem,"cPNID")%>&cid=<%# DataBinder.Eval(Container.DataItem , "NID") %>">
@@ -232,8 +228,8 @@
                 </asp:GridView>
             </div>
 
-             <div class="BottomFixed">
-                        <%-- <button type="button" name="btnSave" id="btnSave" class="btn btn-success SaveCancel btnSave"
+            <div class="BottomFixed">
+                <%-- <button type="button" name="btnSave" id="btnSave" class="btn btn-success SaveCancel btnSave"
                     tabindex="6012" onclick="FinalSave()">
                     <i class="icon fa-save SaveCancelIcon iSave" id="iSave"></i><span id="spanSave" class="spanSave">
                     </span>
@@ -243,33 +239,35 @@
                     <i class="icon fa-close SaveCancelIcon iCancel"></i><span id="spanCancel" class="spanCancel">
                     </span>
                 </button>--%>
-                        <asp:DropDownList ID="ddldelete" runat="server" Visible="false">
-                            <asp:ListItem>No</asp:ListItem>
-                            <asp:ListItem Value="Yes">Yes</asp:ListItem>
-                        </asp:DropDownList>
-                        <asp:Button runat="server" ID="btnsave" class="btn btn-success SaveCancel btnSave"
-                            OnClick="btnsave_Click" Text="Save" TabIndex="13" />
-                        <asp:Button runat="server" ID="btncancel" class="btn btn-info SaveCancel btnCancel"
-                            Text="Cancel" TabIndex="14" OnClick="btncancel_Click" />
-                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
-                            &nbsp;
-                        </div>
-                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
-                            &nbsp;
-                        </div>
-                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
-                            &nbsp;
-                        </div>
-                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%;">
-                            &nbsp;
-                        </div>
-                        <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%;">
-                            &nbsp;
-                        </div>
-                        <div style="padding-top: 3px; font-weight: bold; font-size: 20px; display: inline-block; margin-left: 5%;">
-                            <span class="contentLabel">Total Rs</span>&nbsp;:&nbsp;&nbsp;<asp:Label runat="server"
-                                ID="LblNetRs"></asp:Label>
-                        </div>
-              
+                <asp:DropDownList ID="ddldelete" runat="server" Visible="false">
+                    <asp:ListItem>No</asp:ListItem>
+                    <asp:ListItem Value="Yes">Yes</asp:ListItem>
+                </asp:DropDownList>
+                <asp:Button runat="server" ID="btnsave" class="btn btn-success SaveCancel btnSave"
+                    OnClick="btnsave_Click" Text="Save" TabIndex="13" />
+                <asp:Button runat="server" ID="btncancel" class="btn btn-info SaveCancel btnCancel"
+                    Text="Cancel" TabIndex="14" OnClick="btncancel_Click" />
+                <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
+                    &nbsp;
+                </div>
+                <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
+                    &nbsp;
+                </div>
+                <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 15%;">
+                    &nbsp;
+                </div>
+                <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%;">
+                    &nbsp;
+                </div>
+                <div style="padding-top: 3px; font-weight: bold; display: inline-block; margin-left: 5%;">
+                    &nbsp;
+                </div>
+                <div style="padding-top: 3px; font-weight: bold; font-size: 20px; display: inline-block; margin-left: 5%;">
+                    <span class="contentLabel">Total Rs</span>&nbsp;:&nbsp;&nbsp;<asp:Label runat="server"
+                        ID="LblNetRs"></asp:Label>
+                </div>
+
+            </div>
         </div>
+    </div>
 </asp:Content>

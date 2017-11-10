@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Web;
 using System.Data;
 using App_Code;
+using iTextSharp.text;
+
 public partial class OptionForm : System.Web.UI.Page
 {
 
     DataSet ds = new DataSet();
     SqlInvoice cn = new SqlInvoice();
-
+    string city;
     protected void Page_Load(object sender, EventArgs e)
     {
         if (!IsPostBack)
@@ -48,7 +50,6 @@ public partial class OptionForm : System.Web.UI.Page
                 {
                     LblHead.Text = "Purchase Item Summary";
                     trDate.Visible = true;
-                    //trSingleDate.Visible = true;
                     tritem.Visible = false;
                     tritem.Visible = true;
                     DDLBranch.Visible = false;
@@ -124,7 +125,44 @@ public partial class OptionForm : System.Web.UI.Page
                     trCusEnv.Visible = true;
                     DDL_Account.Visible = false;
                 }
-
+                else if (Request.QueryString["Rpt"] == "Rec")
+                {
+                    LblHead.Text = "Receivable";
+                    trSingleDate.Visible = true;
+                    trcity.Visible = true;
+                    ds = cn.RunSql("[sp_Searchaccount] 'City','" + Request.Cookies["CompID"].Value.ToString() + "'", "data");
+                    ChkCity.DataSource = ds;
+                    ChkCity.DataBind();
+                }
+                else if (Request.QueryString["Rpt"] == "Pay")
+                {
+                    LblHead.Text = "Payable";
+                    trSingleDate.Visible = true;
+                    trcity.Visible = true;
+                    ds = cn.RunSql("[sp_Searchaccount] 'City','" + Request.Cookies["CompID"].Value.ToString() + "'", "data");
+                    ChkCity.DataSource = ds;
+                    ChkCity.DataBind();
+                }
+                else if (Request.QueryString["Rpt"] == "Trail")
+                {
+                    LblHead.Text = "Trail Balance";
+                    trSingleDate.Visible = true;
+                }
+                else if (Request.QueryString["Rpt"] == "TA")
+                {
+                    LblHead.Text = "Trading Account";
+                    trDate.Visible = true;
+                }
+                else if (Request.QueryString["Rpt"] == "PL")
+                {
+                    LblHead.Text = "Profit & Loss";
+                    trDate.Visible = true;
+                }
+                else if (Request.QueryString["Rpt"] == "Bal")
+                {
+                    LblHead.Text = "Balance Shit";
+                    trDate.Visible = true;
+                }
             }
             catch (Exception ex)
             {
@@ -175,19 +213,84 @@ public partial class OptionForm : System.Web.UI.Page
             }
             else if (Request.QueryString["Rpt"] == "DB")
             {
-                Response.Redirect("PrintSalesBill.aspx?Rpt=DB&Date=" + TxtDate.Text + "");
+                Response.Redirect("PrintSalesReport.aspx?Rpt=DB&dDate=" + TxtDate.Text + "&Branchid=" + DDLBranch.SelectedValue + " ");
             }
             else if (Request.QueryString["Rpt"] == "CashB")
             {
-                Response.Redirect("PrintSalesBill.aspx?Rpt=CashB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + " ");
+                Response.Redirect("PrintSalesReport.aspx?Rpt=CashB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + "&Branchid=" + DDLBranch.SelectedValue + " ");
             }
             else if (Request.QueryString["Rpt"] == "BankB")
             {
-                Response.Redirect("PrintSalesBill.aspx?Rpt=BankB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + " ");
+                Response.Redirect("PrintSalesReport.aspx?Rpt=BankB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + DDL_Account.SelectedValue + "&Branchid=" + DDLBranch.SelectedValue + " ");
             }
             else if (Request.QueryString["Rpt"] == "StatB")
             {
-                Response.Redirect("PrintSalesBill.aspx?Rpt=StatB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + HifCustomer.Value + " ");
+                Response.Redirect("PrintSalesReport.aspx?Rpt=StatB&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&AcID=" + HifCustomer.Value + "&Branchid=" + DDLBranch.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "Rec")
+            {
+                city = "";
+                if (ChkCity.Items[0].Selected == true)
+                {
+                    city = "1";
+                }
+                else
+                {
+                    for (int i = 0; i < ChkCity.Items.Count - 1; i++)
+                    {
+                        if (ChkCity.Items[i].Selected == true)
+                        {
+                            city = city + ChkCity.Items[i].Value.ToString() + ",";
+                        }
+                    }
+
+                    //foreach (ListItem LiCity in ChkCity.Items)
+                    //{
+                    //    if (LiCity.ToString() == true)
+                    //    {
+                    //        city = city + LiCity.Value;
+                    //    }
+                    //}
+
+                }
+                Response.Redirect("PrintSalesReport.aspx?Rpt=Rec&Date=" + TxtDate.Text + "&cCity=" + city + "&Branchid=" + DDLBranch.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "Pay")
+            {
+                city = "";
+                if (ChkCity.Items[0].Selected == true)
+                {
+                    city = "1";
+                }
+                else
+                {
+                    city = "1";
+                    for (int i = 0; i < ChkCity.Items.Count - 1; i++)
+                    {
+                        if (ChkCity.Items[i].Selected == true)
+                        {
+                            city = city + ChkCity.Items[i].Value.ToString() + ",";
+                        }
+                    }
+                }
+                Response.Redirect("PrintSalesReport.aspx?Rpt=Pay&Date=" + TxtDate.Text + "&cCity=" + city + "&Branchid =" + DDLBranch.SelectedValue + " ");
+            }
+
+            else if (Request.QueryString["Rpt"] == "Trail")
+            {
+                Response.Redirect("PrintSalesReport.aspx?Rpt=Trail&dDate=" + TxtDate.Text + "&Branchid=" + DDLBranch.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "TA")
+            {
+                Response.Redirect("PrintSalesReport.aspx?Rpt=TA&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&Branchid=" + DDLBranch.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "PL")
+            {
+                Response.Redirect("PrintSalesReport.aspx?Rpt=PL&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&Branchid=" + DDLBranch.SelectedValue + " ");
+            }
+            else if (Request.QueryString["Rpt"] == "Bal")
+            {
+                Response.Redirect("PrintSalesReport.aspx?Rpt=Bal&FrmDate=" + TxtFrmdate.Text + "&ToDate=" + TxtToDate.Text + "&Branchid=" + DDLBranch.SelectedValue + " ");
             }
         }
         catch (Exception ex)
@@ -212,7 +315,6 @@ public partial class OptionForm : System.Web.UI.Page
                 zone.Add(cnm);
             }
         }
-
         return zone;
     }
     [System.Web.Script.Services.ScriptMethod()]
@@ -233,7 +335,6 @@ public partial class OptionForm : System.Web.UI.Page
                 zone.Add(cnm);
             }
         }
-
         return zone;
     }
 

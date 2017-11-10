@@ -13,8 +13,8 @@ public partial class PrintSalesReport : System.Web.UI.Page
         if (!IsPostBack)
         {
             try
-            {
 
+            {
                 if (Request.QueryString["Rpt"] == "1")
                 {
                     ds = cn.RunSql("[sp_PrintPurchaseDateWise] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "data");
@@ -50,7 +50,7 @@ public partial class PrintSalesReport : System.Web.UI.Page
                 }
                 else if (Request.QueryString["Rpt"] == "DB")
                 {
-                    ds = cn.RunSql("[Sp_PrintDayBook] '" + Request.QueryString["Date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "Data");
+                    ds = cn.RunSql("[Sp_PrintDayBook] '" + Request.QueryString["dDate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "' ", "Data");
                 }
                 else if (Request.QueryString["Rpt"] == "CashB")
                 {
@@ -64,15 +64,45 @@ public partial class PrintSalesReport : System.Web.UI.Page
                 {
                     ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
                 }
-
-                if (ds.Tables.Count > 0)
+                else if (Request.QueryString["Rpt"] == "Rec")
                 {
+                    ds = cn.RunSql("[Sp_PrintReci_Pay] '" + Request.QueryString["date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.QueryString["cCity"] + "','R' ", "data");
+                }
+                else if (Request.QueryString["Rpt"] == "Pay")
+                {
+                    ds = cn.RunSql("[Sp_PrintReci_Pay] '" + Request.QueryString["date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.QueryString["cCity"] + "','P' ", "data");
+                }
+                else if (Request.QueryString["Rpt"] == "Trail")
+                {
+                    ds = cn.RunSql("[Sp_PrintTrailBalance] '" + Request.QueryString["dDate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.Cookies["AccYear"].Value.ToString() + "' ", "data");
+                }
+                else if (Request.QueryString["Rpt"] == "TA")
+                {
+                    ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
                     Lbl.Text = ds.Tables[0].Rows[0][0].ToString();
                 }
-                else
+                else if (Request.QueryString["Rpt"] == "PL")
                 {
-                    Lbl.Text = "Error.... !! THERE IS NO RECORD.";
-                    Lbl.Style.Add("color", "red");
+                    ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
+                    Lbl.Text = ds.Tables[1].Rows[0][0].ToString();
+                }
+                else if (Request.QueryString["Rpt"] == "Bal")
+                {
+                    ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
+                    Lbl.Text = ds.Tables[2].Rows[0][0].ToString();
+                }
+                //[Sp_PrintTA_PL_bal]
+                if (Request.QueryString["Rpt"] != "TA" && Request.QueryString["Rpt"] != "PL" && Request.QueryString["Rpt"] != "Bal")
+                {
+                    if (ds.Tables.Count > 0)
+                    {
+                        Lbl.Text = ds.Tables[0].Rows[0][0].ToString();
+                    }
+                    else
+                    {
+                        Lbl.Text = "Error.... !! THERE IS NO RECORD.";
+                        Lbl.Style.Add("color", "red");
+                    }
                 }
             }
             catch (Exception ex)
@@ -82,7 +112,7 @@ public partial class PrintSalesReport : System.Web.UI.Page
             }
         }
     }
-    
+
 
     public void ImageButton1_Click(object sender, EventArgs e)
     {
@@ -136,17 +166,46 @@ public partial class PrintSalesReport : System.Web.UI.Page
         {
             ds = cn.RunSql("[Sp_PrintCashBankStatmnent]'" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompID"].Value + "','" + Request.QueryString["AcID"] + "' ", "Data");
         }
-
-        if (ds.Tables.Count > 0)
+        else if (Request.QueryString["Rpt"] == "Rec")
         {
-            ExportToExcel(ds.Tables[0], "SalesData");
+            ds = cn.RunSql("[Sp_PrintReci_Pay] '" + Request.QueryString["date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.QueryString["cCity"] + "','R' ", "data");
         }
-        else
+        else if (Request.QueryString["Rpt"] == "Pay")
         {
-            Lbl.Text = "Error.... !! THERE IS NO RECORD.";
-            Lbl.Style.Add("color", "red");
+            ds = cn.RunSql("[Sp_PrintReci_Pay] '" + Request.QueryString["date"] + "','" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.QueryString["cCity"] + "','P' ", "data");
         }
 
+        else if (Request.QueryString["Rpt"] == "Trail")
+        {
+            ds = cn.RunSql("[Sp_PrintTrailBalance] '" + Request.QueryString["dDate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "','" + Request.Cookies["AccYear"].Value.ToString() + "' ", "data");
+        }
+        else if (Request.QueryString["Rpt"] == "TA")
+        {
+            ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
+            Lbl.Text = ds.Tables[0].Rows[0][0].ToString();
+        }
+        else if (Request.QueryString["Rpt"] == "PL")
+        {
+            ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
+            ExportToExcel(ds.Tables[1], "ProfitLoss");
+        }
+        else if (Request.QueryString["Rpt"] == "Bal")
+        {
+            ds = cn.RunSql("[Sp_PrintTA_PL_bal] '" + Request.QueryString["FrmDate"] + "','" + Request.QueryString["Todate"] + "', '" + Request.QueryString["Branchid"] + "','" + Request.Cookies["CompId"].Value.ToString() + "'", "data");
+            ExportToExcel(ds.Tables[2], "Balancesheet");
+        }
+        if (Request.QueryString["Rpt"] != "PL" && Request.QueryString["Rpt"] != "Bal")
+        {
+            if (ds.Tables.Count > 0)
+            {
+                ExportToExcel(ds.Tables[0], "SalesData");
+            }
+            else
+            {
+                Lbl.Text = "Error.... !! THERE IS NO RECORD.";
+                Lbl.Style.Add("color", "red");
+            }
+        }
     }
 
     void ExportToExcel(DataTable dt, string filenmae)
